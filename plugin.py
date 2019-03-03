@@ -16,7 +16,40 @@ default_config = ClientConfig(
     tcp_port=None,
     enabled=True,
     init_options=dict(),
-    settings=dict(),
+    settings={
+        "vetur": {
+            "validation": {
+                "template": True,
+                "style": True,
+                "script": True,
+            },
+            "completion": {
+                "autoImport": False,
+                "useScaffoldSnippets": False,
+            },
+            "format": {
+                "defaultFormatter": {
+                    "js": 'prettier',
+                    "ts": 'prettier',
+                },
+                "defaultFormatterOptions": {},
+                "scriptInitialIndent": False,
+                "styleInitialIndent": False,
+            },
+        },
+        "css": {},
+        "html": {
+            "suggest": {}
+        },
+        "javascript": {
+            "format": {}
+        },
+        "typescript": {
+            "format": {}
+        },
+        "emmet": {},
+        "stylusSupremacy": {},
+    },
     env=dict(),
     languages=[
         LanguageConfig(
