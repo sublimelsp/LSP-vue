@@ -13,41 +13,41 @@ The default configuration is this:
 
 ```json
 {
-	"config": {
-		"vetur": {
-			"completion": {
-				"autoImport": false,
-				"tagCasing": "kebab",
-				"useScaffoldSnippets": false
-			},
-			"format": {
-				"defaultFormatter": {
-					"js": "none",
-					"ts": "none"
-				},
-				"defaultFormatterOptions": {},
-				"scriptInitialIndent": false,
-				"styleInitialIndent": false
-			},
-			"useWorkspaceDependencies": false,
-			"validation": {
-				"script": true,
-				"style": true,
-				"template": true
-			}
-		},
-		"css": {},
-		"emmet": {},
-		"stylusSupremacy": {},
-		"html": {
-			"suggest": {}
-		},
-		"javascript": {
-			"format": {}
-		},
-		"typescript": {
-			"format": {}
-		}
-	}
+    "config": {
+        "vetur": {
+            "completion": {
+                "autoImport": false,
+                "tagCasing": "kebab",
+                "useScaffoldSnippets": false
+            },
+            "format": {
+                "defaultFormatter": {
+                    "js": "none",
+                    "ts": "none"
+                },
+                "defaultFormatterOptions": {},
+                "scriptInitialIndent": false,
+                "styleInitialIndent": false
+            },
+            "useWorkspaceDependencies": false,
+            "validation": {
+                "script": true,
+                "style": true,
+                "template": true
+            }
+        },
+        "css": {},
+        "emmet": {},
+        "stylusSupremacy": {},
+        "html": {
+            "suggest": {}
+        },
+        "javascript": {
+            "format": {}
+        },
+        "typescript": {
+            "format": {}
+        }
+    }
 }
 ```
