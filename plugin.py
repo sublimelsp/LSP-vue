@@ -41,9 +41,7 @@ class LspVuePlugin(LanguageHandler):
 
     @property
     def config(self) -> ClientConfig:
-        settings = sublime.load_settings("LSP-vue.sublime-settings")
-        print('settingsssss')
-        print(settings.get('config'))              
+        settings = sublime.load_settings("LSP-vue.sublime-settings")            
         return ClientConfig(
             name='lsp-vue',
             binary_args=[
