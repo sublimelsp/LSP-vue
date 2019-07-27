@@ -8,7 +8,8 @@ Vue support for Sublime's LSP plugin.
 ### Configuration
 
 Configure the vue language server by accessing `Preferences > Package Settings > LSP > Servers > LSP-vue`.
-The default configuration:
+
+The default configuration is this:
 
 ```json
 {
