@@ -27,7 +27,8 @@ The default configuration is this:
                 },
                 "defaultFormatterOptions": {},
                 "scriptInitialIndent": false,
-                "styleInitialIndent": false
+                "styleInitialIndent": false,
+                "options": {}
             },
             "useWorkspaceDependencies": false,
             "validation": {

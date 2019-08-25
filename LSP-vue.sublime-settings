@@ -13,7 +13,8 @@
 				},
 				"defaultFormatterOptions": {},
 				"scriptInitialIndent": false,
-				"styleInitialIndent": false
+				"styleInitialIndent": false,
+				"options": {}
 			},
 			"useWorkspaceDependencies": false,
 			"validation": {
