@@ -71,7 +71,12 @@ class LspVuePlugin(LanguageHandler):
 
     @property
     def config(self) -> ClientConfig:
-        settings = sublime.load_settings("LSP-vue.sublime-settings")            
+        settings = sublime.load_settings("LSP-vue.sublime-settings")
+        config = settings.get('config')
+        view = sublime.active_window().active_view()
+        if view is not None:
+            config['vetur']['format']['options']['tabs_size'] = view.settings().get("tab_size", 4)
+            config['vetur']['format']['options']['useTabs'] = not view.settings().get("translate_tabs_to_spaces", False)
         return ClientConfig(
             name='lsp-vue',
             binary_args=[
@@ -81,7 +86,7 @@ class LspVuePlugin(LanguageHandler):
             tcp_port=None,
             enabled=True,
             init_options={
-                "config": settings.get('config')
+                "config": config
             },
             settings=dict(),
             env=dict(),
