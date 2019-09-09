@@ -64,6 +64,22 @@ def logAndShowMessage(msg, additional_logs=None):
     sublime.active_window().status_message(msg)
 
 
+def getGlobalSnippetDir() -> str:
+    """
+    Returns default global directory for user's snippets.
+
+    Uses same logic and paths as vetur.
+    See https://github.com/vuejs/vetur/blob/master/client/userSnippetDir.ts
+    """
+    appName = 'Code'
+    if sublime.platform() == 'windows':
+        return os.path.expandvars('%%APPDATA%%\\{}\\User\\snippets\\vetur').format(appName)
+    elif sublime.platform() == 'osx':
+        return os.path.expanduser('~/Library/Application Support/{}/User/snippets/vetur').format(appName)
+    else:
+        return os.path.expanduser('~/.config/{}/User/snippets/vetur').format(appName)
+
+
 class LspVuePlugin(LanguageHandler):
     @property
     def name(self) -> str:
@@ -73,6 +89,7 @@ class LspVuePlugin(LanguageHandler):
     def config(self) -> ClientConfig:
         settings = sublime.load_settings("LSP-vue.sublime-settings")
         config = settings.get('config')
+        globalSnippetDir = settings.get('globalSnippetDir', getGlobalSnippetDir())
         view = sublime.active_window().active_view()
         if view is not None:
             config['vetur']['format']['options']['tabs_size'] = view.settings().get("tab_size", 4)
@@ -86,7 +103,8 @@ class LspVuePlugin(LanguageHandler):
             tcp_port=None,
             enabled=True,
             init_options={
-                "config": config
+                "config": config,
+                "globalSnippetDir": globalSnippetDir
             },
             settings=dict(),
             env=dict(),
