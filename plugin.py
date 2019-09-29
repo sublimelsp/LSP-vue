@@ -5,7 +5,7 @@ import threading
 import subprocess
 
 from LSP.plugin.core.handlers import LanguageHandler
-from LSP.plugin.core.settings import ClientConfig, LanguageConfig
+from LSP.plugin.core.settings import ClientConfig, LanguageConfig, read_client_config
 
 
 package_path = os.path.dirname(__file__)
@@ -65,21 +65,13 @@ def logAndShowMessage(msg, additional_logs=None):
     sublime.active_window().status_message(msg)
 
 
-def getGlobalSnippetDir() -> str:
-    """
-    Returns default global directory for user's snippets.
-
-    Uses same logic and paths as vetur.
-    See https://github.com/vuejs/vetur/blob/master/client/userSnippetDir.ts
-    """
-    appName = 'Code'
-    if sublime.platform() == 'windows':
-        return os.path.expandvars('%%APPDATA%%\\{}\\User\\snippets\\vetur').format(appName)
-    elif sublime.platform() == 'osx':
-        return os.path.expanduser('~/Library/Application Support/{}/User/snippets/vetur').format(appName)
-    else:
-        return os.path.expanduser('~/.config/{}/User/snippets/vetur').format(appName)
-
+def update_to_new_configuration(settings, old_config, new_config):
+    # add old config to new config
+    new_config['initializationOptions']['config'] = old_config
+    settings.set('client', new_config)
+    # remove old config
+    settings.erase('config')
+    sublime.save_settings("LSP-vue.sublime-settings")
 
 class LspVuePlugin(LanguageHandler):
     @property
@@ -89,34 +81,34 @@ class LspVuePlugin(LanguageHandler):
     @property
     def config(self) -> ClientConfig:
         settings = sublime.load_settings("LSP-vue.sublime-settings")
-        config = settings.get('config')
-        globalSnippetDir = settings.get('globalSnippetDir', getGlobalSnippetDir())
+        # TODO: remove update_to_new_configuration after 1 November.
+        old_config = settings.get('config')
+        client_configuration = settings.get('client')
+        if old_config:
+            update_to_new_configuration(settings, old_config, client_configuration)
+
+        default_configuration = {
+            "command": [
+                'node',
+                server_path,
+                '--stdio'
+            ],
+            "languages": [
+                {
+                    "languageId": "vue",
+                    "scopes": ["text.html.vue"],
+                    "syntaxes": ["Packages/Vue Syntax Highlight/Vue Component.sublime-syntax"]
+                }
+            ]
+        }
+        default_configuration.update(client_configuration)
         view = sublime.active_window().active_view()
         if view is not None:
-            config['vetur']['format']['options']['tabs_size'] = view.settings().get("tab_size", 4)
-            config['vetur']['format']['options']['useTabs'] = not view.settings().get("translate_tabs_to_spaces", False)
-        return ClientConfig(
-            name='lsp-vue',
-            binary_args=[
-                'node',
-                server_path
-            ],
-            tcp_port=None,
-            enabled=True,
-            init_options={
-                "config": config,
-                "globalSnippetDir": globalSnippetDir
-            },
-            settings=dict(),
-            env=dict(),
-            languages=[
-                LanguageConfig(
-                    'vue',
-                    ['text.html.vue'],
-                    ["Packages/Vue Syntax Highlight/Vue Component.sublime-syntax"]
-                )
-            ]
-        )
+            options = default_configuration['initializationOptions']['config']['vetur']['format']['options']
+            options['tabSize'] = view.settings().get("tab_size", 4)
+            options['useTabs'] = not view.settings().get("translate_tabs_to_spaces", False)
+
+        return read_client_config('lsp-vue', default_configuration)
 
     def on_start(self, window) -> bool:
         if not is_node_installed():

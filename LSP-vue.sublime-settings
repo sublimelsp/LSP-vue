@@ -1,39 +1,52 @@
 {
-	"config": {
-		"vetur": {
-			"completion": {
-				"autoImport": false,
-				"tagCasing": "kebab",
-				"useScaffoldSnippets": false
-			},
-			"format": {
-				"defaultFormatter": {
-					"js": "none",
-					"ts": "none"
-				},
-				"defaultFormatterOptions": {},
-				"scriptInitialIndent": false,
-				"styleInitialIndent": false,
-				"options": {}
-			},
-			"useWorkspaceDependencies": false,
-			"validation": {
-				"script": true,
-				"style": true,
-				"template": true
+	"client" : {
+		"enabled": true,
+		"languages": [
+			{
+				"languageId": "vue",
+				"scopes": ["text.html.vue"],
+				"syntaxes": ["Packages/Vue Syntax Highlight/Vue Component.sublime-syntax"]
 			}
+		],
+		"initializationOptions": {
+			// "config": {
+			// 	"vetur": {
+			// 		"completion": {
+			// 			"autoImport": false,
+			// 			"tagCasing": "kebab",
+			// 			"useScaffoldSnippets": false
+			// 		},
+			// 		"format": {
+			// 			"defaultFormatter": {
+			// 				"js": "none",
+			// 				"ts": "none"
+			// 			},
+			// 			"defaultFormatterOptions": {},
+			// 			"scriptInitialIndent": false,
+			// 			"styleInitialIndent": false,
+			// 			"options": {}
+			// 		},
+			// 		"useWorkspaceDependencies": false,
+			// 		"validation": {
+			// 			"script": true,
+			// 			"style": true,
+			// 			"template": true
+			// 		}
+			// 	},
+			// 	"css": {},
+			// 	"emmet": {},
+			// 	"stylusSupremacy": {},
+			// 	"html": {
+			// 		"suggest": {}
+			// 	},
+			// 	"javascript": {
+			// 		"format": {}
+			// 	},
+			// 	"typescript": {
+			// 		"format": {}
+			// 	}
+			// }
 		},
-		"css": {},
-		"emmet": {},
-		"stylusSupremacy": {},
-		"html": {
-			"suggest": {}
-		},
-		"javascript": {
-			"format": {}
-		},
-		"typescript": {
-			"format": {}
-		}
+		"settings": {}
 	}
 }
