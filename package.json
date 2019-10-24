@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/sublimelsp/LSP-vue#readme",
   "dependencies": {
-    "vue-language-server": "0.0.63"
+    "vue-language-server": "0.0.65"
   }
 }
