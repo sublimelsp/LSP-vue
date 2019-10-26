@@ -99,15 +99,54 @@ class LspVuePlugin(LanguageHandler):
                     "scopes": ["text.html.vue"],
                     "syntaxes": ["Packages/Vue Syntax Highlight/Vue Component.sublime-syntax"]
                 }
-            ]
+            ],
+            "initializationOptions": {
+                "config": {
+                    "vetur": {
+                        "completion": {
+                            "autoImport": False,
+                            "tagCasing": "kebab",
+                            "useScaffoldSnippets": False
+                        },
+                        "format": {
+                            "defaultFormatter": {
+                                "js": "none",
+                                "ts": "none"
+                            },
+                            "defaultFormatterOptions": {},
+                            "scriptInitialIndent": False,
+                            "styleInitialIndent": False,
+                            "options": {}
+                        },
+                        "useWorkspaceDependencies": False,
+                        "validation": {
+                            "script": True,
+                            "style": True,
+                            "template": True
+                        }
+                    },
+                    "css": {},
+                    "emmet": {},
+                    "stylusSupremacy": {},
+                    "html": {
+                        "suggest": {}
+                    },
+                    "javascript": {
+                        "format": {}
+                    },
+                    "typescript": {
+                        "format": {}
+                    }
+                }
+            }
         }
         default_configuration.update(client_configuration)
         view = sublime.active_window().active_view()
         if view is not None:
-            options = default_configuration['initializationOptions']['config']['vetur']['format']['options']
-            options['tabSize'] = view.settings().get("tab_size", 4)
-            options['useTabs'] = not view.settings().get("translate_tabs_to_spaces", False)
-
+            options = default_configuration.get('initializationOptions', {}) .get('config',{}) .get('vetur',{}).get('format',{}).get('options',{
+                "tabSize": view.settings().get("tab_size", 4),
+                "useTabs": not view.settings().get("translate_tabs_to_spaces", False)
+            })
         return read_client_config('lsp-vue', default_configuration)
 
     def on_start(self, window) -> bool:
