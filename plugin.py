@@ -1,153 +1,86 @@
-import shutil
 import os
+import shutil
 import sublime
-import threading
-import subprocess
 
 from LSP.plugin.core.handlers import LanguageHandler
-from LSP.plugin.core.settings import ClientConfig, LanguageConfig, read_client_config
+from LSP.plugin.core.settings import ClientConfig, read_client_config
+from lsp_utils import ServerNpmResource
 
+PACKAGE_NAME = 'LSP-vue'
+SETTINGS_FILENAME = 'LSP-vue.sublime-settings'
+SERVER_DIRECTORY = 'server'
+SERVER_BINARY_PATH = os.path.join(SERVER_DIRECTORY, 'node_modules', 'vue-language-server', 'bin', 'vls')
 
-package_path = os.path.dirname(__file__)
-server_path = os.path.join(package_path, 'node_modules', 'vue-language-server', 'bin', 'vls')
+server = ServerNpmResource(PACKAGE_NAME, SERVER_DIRECTORY, SERVER_BINARY_PATH)
 
 
 def plugin_loaded():
-    is_server_installed = os.path.isfile(server_path)
-    print('LSP-vue: Server {} installed.'.format('is' if is_server_installed else 'is not' ))
-
-    # install if not installed
-    if not is_server_installed:
-        # this will be called only when the plugin gets:
-        # - installed for the first time,
-        # - or when updated on package control
-        logAndShowMessage('LSP-vue: Installing server.')
-
-        runCommand(
-            onCommandDone,
-            ["npm", "install", "--verbose", "--prefix", package_path, package_path]
-        )
+    server.setup()
 
 
-def onCommandDone():
-    logAndShowMessage('LSP-vue: Server installed.')
-
-
-def runCommand(onExit, popenArgs):
-    """
-    Runs the given args in a subprocess.Popen, and then calls the function
-    onExit when the subprocess completes.
-    onExit is a callable object, and popenArgs is a list/tuple of args that
-    would give to subprocess.Popen.
-    """
-    def runInThread(onExit, popenArgs):
-        try:
-            if sublime.platform() == 'windows':
-                subprocess.check_call(popenArgs, shell=True)
-            else:
-                subprocess.check_call(popenArgs)
-            onExit()
-        except subprocess.CalledProcessError as error:
-            logAndShowMessage('LSP-vue: Error while installing the server.', error)
-        return
-    thread = threading.Thread(target=runInThread, args=(onExit, popenArgs))
-    thread.start()
-    # returns immediately after the thread starts
-    return thread
+def plugin_unloaded():
+    server.cleanup()
 
 
 def is_node_installed():
     return shutil.which('node') is not None
 
 
-def logAndShowMessage(msg, additional_logs=None):
-    print(msg, '\n', additional_logs) if additional_logs else print(msg)
-    sublime.active_window().status_message(msg)
-
-
-def update_to_new_configuration(settings, old_config, new_config):
-    # add old config to new config
-    new_config['initializationOptions']['config'] = old_config
-    settings.set('client', new_config)
-    # remove old config
-    settings.erase('config')
-    sublime.save_settings("LSP-vue.sublime-settings")
-
 class LspVuePlugin(LanguageHandler):
     @property
     def name(self) -> str:
-        return 'lsp-vue'
+        return PACKAGE_NAME.lower()
 
     @property
     def config(self) -> ClientConfig:
-        settings = sublime.load_settings("LSP-vue.sublime-settings")
-        # TODO: remove update_to_new_configuration after 1 November.
-        old_config = settings.get('config')
-        client_configuration = settings.get('client')
-        if old_config:
-            update_to_new_configuration(settings, old_config, client_configuration)
+        # Calling setup() also here as this might run before `plugin_loaded`.
+        # Will be a no-op if already ran.
+        # See https://github.com/sublimelsp/LSP/issues/899
+        server.setup()
+
+        configuration = self.migrate_and_read_configuration()
 
         default_configuration = {
-            "command": [
-                'node',
-                server_path,
-                '--stdio'
-            ],
-            "languages": [
-                {
-                    "languageId": "vue",
-                    "scopes": ["text.html.vue"],
-                    "syntaxes": ["Packages/Vue Syntax Highlight/Vue Component.sublime-syntax"]
-                }
-            ],
-            "initializationOptions": {
-                "config": {
-                    "vetur": {
-                        "completion": {
-                            "autoImport": False,
-                            "tagCasing": "kebab",
-                            "useScaffoldSnippets": False
-                        },
-                        "format": {
-                            "defaultFormatter": {
-                                "js": "none",
-                                "ts": "none"
-                            },
-                            "defaultFormatterOptions": {},
-                            "scriptInitialIndent": False,
-                            "styleInitialIndent": False,
-                            "options": {}
-                        },
-                        "useWorkspaceDependencies": False,
-                        "validation": {
-                            "script": True,
-                            "style": True,
-                            "template": True
-                        }
-                    },
-                    "css": {},
-                    "emmet": {},
-                    "stylusSupremacy": {},
-                    "html": {
-                        "suggest": {}
-                    },
-                    "javascript": {
-                        "format": {}
-                    },
-                    "typescript": {
-                        "format": {}
-                    }
-                }
-            }
+            'enabled': True,
+            'command': ['node', server.binary_path, '--stdio'],
         }
-        default_configuration.update(client_configuration)
+
+        default_configuration.update(configuration)
+
         view = sublime.active_window().active_view()
-        if view is not None:
-            options = default_configuration.get('initializationOptions', {}) .get('config',{}) .get('vetur',{}).get('format',{}).get('options',{
-                "tabSize": view.settings().get("tab_size", 4),
-                "useTabs": not view.settings().get("translate_tabs_to_spaces", False)
-            })
-        return read_client_config('lsp-vue', default_configuration)
+        if view:
+            view_settings = view.settings()
+            default_configuration \
+                .setdefault('initializationOptions', {}) \
+                .setdefault('config', {}) \
+                .setdefault('vetur', {}) \
+                .setdefault('format', {}) \
+                .setdefault('options', {}) \
+                .update({
+                    'tabSize': view_settings.get('tab_size', 4),
+                    'useTabs': not view_settings.get('translate_tabs_to_spaces', False)
+                })
+
+        return read_client_config(self.name, default_configuration)
+
+    def migrate_and_read_configuration(self) -> dict:
+        settings = {}
+        loaded_settings = sublime.load_settings(SETTINGS_FILENAME)
+
+        if loaded_settings:
+            if loaded_settings.has('client'):
+                client = loaded_settings.get('client')
+                loaded_settings.erase('client')
+                # Migrate old keys
+                for key in client:
+                    loaded_settings.set(key, client[key])
+                sublime.save_settings(SETTINGS_FILENAME)
+
+            # Read configuration keys
+            for key in ['languages', 'initializationOptions', 'settings']:
+                settings[key] = loaded_settings.get(key)
+
+        return settings
 
     def on_start(self, window) -> bool:
         if not is_node_installed():

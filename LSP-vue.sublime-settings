@@ -1,52 +1,55 @@
 {
-	"client" : {
-		"enabled": true,
-		"languages": [
-			{
-				"languageId": "vue",
-				"scopes": ["text.html.vue"],
-				"syntaxes": ["Packages/Vue Syntax Highlight/Vue Component.sublime-syntax"]
-			}
-		],
-		"initializationOptions": {
-			"config": {
-				"vetur": {
-					"completion": {
-						"autoImport": false,
-						"tagCasing": "kebab",
-						"useScaffoldSnippets": false
+	"languages": [
+		{
+			"languageId": "vue",
+			"scopes": ["text.html.vue"],
+			"syntaxes": ["Packages/Vue Syntax Highlight/Vue Component.sublime-syntax"],
+		}
+	],
+	"initializationOptions": {
+		"config": {
+			"vetur": {
+				"completion": {
+					"autoImport": false,
+					"tagCasing": "kebab",
+					"useScaffoldSnippets": false,
+				},
+				"experimental": {
+					"templateInterpolationService": true,
+				},
+				"format": {
+					"enable": true,
+					"defaultFormatter": {
+						"js": "none",
+						"ts": "none",
 					},
-					"format": {
-						"defaultFormatter": {
-							"js": "none",
-							"ts": "none"
-						},
-						"defaultFormatterOptions": {},
-						"scriptInitialIndent": false,
-						"styleInitialIndent": false,
-						"options": {}
+					"defaultFormatterOptions": {},
+					"scriptInitialIndent": false,
+					"styleInitialIndent": false,
+					"options": {
+						// tabSize and useTabs will be automatically inferred from the workspace
 					},
-					"useWorkspaceDependencies": false,
-					"validation": {
-						"script": true,
-						"style": true,
-						"template": true
-					}
 				},
-				"css": {},
-				"emmet": {},
-				"stylusSupremacy": {},
-				"html": {
-					"suggest": {}
+				"useWorkspaceDependencies": false,
+				"validation": {
+					"script": true,
+					"style": true,
+					"template": true,
 				},
-				"javascript": {
-					"format": {}
-				},
-				"typescript": {
-					"format": {}
-				}
+			},
+			"css": {},
+			"emmet": {},
+			"stylusSupremacy": {},
+			"html": {
+				"suggest": {},
+			},
+			"javascript": {
+				"format": {},
+			},
+			"typescript": {
+				"format": {},
 			}
-		},
-		"settings": {}
-	}
+		}
+	},
+	"settings": {}
 }
