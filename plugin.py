@@ -43,7 +43,7 @@ class LspVuePlugin(LanguageHandler):
         default_configuration = {
             'enabled': True,
             'command': ['node', server.binary_path, '--stdio'],
-        }
+        }  # type: dict
 
         default_configuration.update(configuration)
 
