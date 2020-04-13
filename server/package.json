@@ -1,7 +1,7 @@
 {
   "name": "vue-language-server",
-  "version": "0.0.67",
+  "version": "1.0.0",
   "dependencies": {
-    "vue-language-server": "0.0.67"
+    "vls": "0.2.0"
   }
 }

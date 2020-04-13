@@ -9,7 +9,7 @@ from lsp_utils import ServerNpmResource
 PACKAGE_NAME = 'LSP-vue'
 SETTINGS_FILENAME = 'LSP-vue.sublime-settings'
 SERVER_DIRECTORY = 'server'
-SERVER_BINARY_PATH = os.path.join(SERVER_DIRECTORY, 'node_modules', 'vue-language-server', 'bin', 'vls')
+SERVER_BINARY_PATH = os.path.join(SERVER_DIRECTORY, 'node_modules', 'vls', 'bin', 'vls')
 
 server = ServerNpmResource(PACKAGE_NAME, SERVER_DIRECTORY, SERVER_BINARY_PATH)
 
