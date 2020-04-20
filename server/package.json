@@ -2,6 +2,6 @@
   "name": "sublime-vls",
   "version": "0.0.67",
   "dependencies": {
-    "vue-language-server": "0.0.67"
+    "vue-language-server": "^0.0.67"
   }
 }
