@@ -4,8 +4,3 @@ update_configs:
     directory: "/server"
     update_schedule: "daily"
     target_branch: "master"
-    allowed_updates:
-      - match:
-          dependency_type: "all"
-          update_type: "all"
-    version_requirement_updates: "increase_versions"
