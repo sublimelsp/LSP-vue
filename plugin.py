@@ -16,7 +16,8 @@ class LspVuePlugin(NpmClientHandler):
     server_directory = 'server'
     server_binary_path = os.path.join(server_directory, 'node_modules', 'vue-language-server', 'bin', 'vls')
 
-    def on_client_configuration_ready(self, configuration: dict):
+    @classmethod
+    def on_client_configuration_ready(cls, configuration: dict):
         view = sublime.active_window().active_view()
         if view:
             view_settings = view.settings()
