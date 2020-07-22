@@ -1,7 +1,7 @@
 # LSP-vue
 
 This is a helper package that automatically installs and updates the
-[Vue Language Server]() (vetur) for you.
+[Vue Language Server](https://github.com/vuejs/vetur/) (vetur) for you.
 
 To use this package, you must have the [LSP](https://packagecontrol.io/packages/LSP) package installed as well.
 
