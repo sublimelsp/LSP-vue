@@ -14,7 +14,7 @@ def plugin_unloaded():
 class LspVuePlugin(NpmClientHandler):
     package_name = __package__
     server_directory = 'server'
-    server_binary_path = os.path.join(server_directory, 'node_modules', 'vue-language-server', 'bin', 'vls')
+    server_binary_path = os.path.join(server_directory, 'node_modules', 'vls', 'bin', 'vls')
 
     @classmethod
     def on_client_configuration_ready(cls, configuration: dict):
