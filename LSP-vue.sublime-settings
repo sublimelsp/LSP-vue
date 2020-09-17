@@ -11,41 +11,37 @@
 	],
 	"initializationOptions": {
 		"config": {
-			"vetur": {
-				"completion": {
-					"autoImport": false,
-					"scaffoldSnippetSources": {
-						"user": "🗒️",
-						"workspace": "💼",
-						"vetur": "✌",
-					},
-					"tagCasing": "kebab",
-				},
-				"format": {
-					"enable": true,
-					"defaultFormatter": {
-						"js": "none",
-						"ts": "none",
-					},
-					"defaultFormatterOptions": {},
-					"scriptInitialIndent": false,
-					"styleInitialIndent": false,
-					"options": {
-						// tabSize and useTabs will be automatically inferred from the workspace
-					},
-				},
-				"useWorkspaceDependencies": false,
-				"validation": {
-					"interpolation": true,
-					"script": true,
-					"style": true,
-					"template": true,
-					"templateProps": false,
-				},
-				"experimental": {
-					"templateInterpolationService": false,
-				},
+			"vetur.completion.autoImport": false,
+			"vetur.completion.scaffoldSnippetSources": {
+				"user": "🗒️",
+				"workspace": "💼",
+				"vetur": "✌",
 			},
+			"vetur.completion.tagCasing": "kebab",
+			"vetur.format.enable": true,
+			"vetur.format.defaultFormatter.css": "prettier",
+			"vetur.format.defaultFormatter.html": "prettyhtml",
+			"vetur.format.defaultFormatter.less": "prettier",
+			"vetur.format.defaultFormatter.postcss": "prettier",
+			"vetur.format.defaultFormatter.pug": "prettier",
+			"vetur.format.defaultFormatter.js": "none",
+			"vetur.format.defaultFormatter.sass": "sass-formatter",
+			"vetur.format.defaultFormatter.scss": "prettier",
+			"vetur.format.defaultFormatter.stylus": "stylus-supremacy",
+			"vetur.format.defaultFormatter.ts": "none",
+			"vetur.format.defaultFormatterOptions": {},
+			"vetur.format.scriptInitialIndent": false,
+			"vetur.format.styleInitialIndent": false,
+			// tabSize and useTabs will be automatically inferred from the workspace
+			// "vetur.format.options.tabSize": 2,
+			// "vetur.format.options.useTabs": false,
+			"vetur.useWorkspaceDependencies": false,
+			"vetur.validation.interpolation": true,
+			"vetur.validation.script": true,
+			"vetur.validation.style": true,
+			"vetur.validation.template": true,
+			"vetur.validation.templateProps": false,
+			"vetur.experimental.templateInterpolationService": false,
 			"css": {
 				"validate": true,
 				"completion": {
@@ -75,7 +71,6 @@
 					"idSelector": "ignore",
 					"unknownAtRules": "warning",
 				},
-
 			},
 			"emmet": {},
 			"stylusSupremacy": {},
