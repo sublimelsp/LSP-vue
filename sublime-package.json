@@ -6,11 +6,9 @@
           "/LSP-vue.sublime-settings"
         ],
         "schema": {
-          "allOf": [
-            {
-              "$ref": "sublime://settings/LSP-plugin-base"
-            },
-            {
+          "$id": "sublime://settings/LSP-vue",
+          "definitions": {
+            "PluginConfig": {
               "properties": {
                 "initializationOptions": {
                   "properties": {
@@ -345,9 +343,37 @@
                 }
               }
             }
+          },
+          "allOf": [
+            {
+              "$ref": "sublime://settings/LSP-plugin-base"
+            },
+            {
+              "$ref": "sublime://settings/LSP-vue#/definitions/PluginConfig"
+            }
           ]
         }
-      }
+      },
+      {
+        "file_patterns": [
+          "/*.sublime-project"
+        ],
+        "schema": {
+          "properties": {
+            "settings": {
+              "properties": {
+                "LSP": {
+                  "properties": {
+                    "LSP-vue": {
+                      "$ref": "sublime://settings/LSP-vue#/definitions/PluginConfig"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
     ]
   }
 }
