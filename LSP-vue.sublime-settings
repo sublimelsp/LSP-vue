@@ -20,7 +20,7 @@
 			"vetur.completion.tagCasing": "kebab",
 			"vetur.format.enable": true,
 			"vetur.format.defaultFormatter.css": "prettier",
-			"vetur.format.defaultFormatter.html": "prettyhtml",
+			"vetur.format.defaultFormatter.html": "prettier",
 			"vetur.format.defaultFormatter.less": "prettier",
 			"vetur.format.defaultFormatter.postcss": "prettier",
 			"vetur.format.defaultFormatter.pug": "prettier",
@@ -35,6 +35,7 @@
 			// tabSize and useTabs will be automatically inferred from the workspace
 			// "vetur.format.options.tabSize": 2,
 			// "vetur.format.options.useTabs": false,
+			"vetur.languageFeatures.codeActions": true,
 			"vetur.useWorkspaceDependencies": false,
 			"vetur.validation.interpolation": true,
 			"vetur.validation.script": true,
