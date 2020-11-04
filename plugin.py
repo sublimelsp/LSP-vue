@@ -17,6 +17,10 @@ class LspVuePlugin(NpmClientHandler):
     server_binary_path = os.path.join(server_directory, 'node_modules', 'vls', 'bin', 'vls')
 
     @classmethod
+    def install_in_cache(cls) -> bool:
+        return False
+
+    @classmethod
     def on_client_configuration_ready(cls, configuration: dict):
         view = sublime.active_window().active_view()
         if view:
