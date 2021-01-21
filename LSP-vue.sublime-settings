@@ -13,6 +13,7 @@
 	],
 	"initializationOptions": {
 		"config": {
+			"vetur.ignoreProjectWarning": false,
 			"vetur.completion.autoImport": false,
 			"vetur.completion.scaffoldSnippetSources": {
 				"user": "🗒️",
