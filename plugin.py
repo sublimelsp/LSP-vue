@@ -1,6 +1,6 @@
+from lsp_utils import NpmClientHandler
 import os
 import sublime
-from lsp_utils import NpmClientHandler
 
 
 def plugin_loaded():

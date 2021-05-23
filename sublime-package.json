@@ -293,6 +293,11 @@
                           "default": true,
                           "description": "Whether to enable codeActions."
                         },
+                        "vetur.languageFeatures.updateImportOnFileMove": {
+                          "type": "boolean",
+                          "default": true,
+                          "description": "Whether to automatically update the import path when renaming or moving a file."
+                        },
                         "vetur.useWorkspaceDependencies": {
                           "type": "boolean",
                           "default": false,
