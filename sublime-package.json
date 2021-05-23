@@ -10,350 +10,345 @@
           "definitions": {
             "PluginConfig": {
               "properties": {
-                "initializationOptions": {
+                "settings": {
+                  "additionalProperties": false,
                   "properties": {
-                    "config": {
+                    "vetur.ignoreProjectWarning": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Vetur will warn about not setup correctly for the project. You can disable it."
+                    },
+                    "vetur.completion.autoImport": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Include completion for module export and auto import them."
+                    },
+                    "vetur.completion.scaffoldSnippetSources": {
+                      "type": "object",
+                      "default": {
+                        "workspace": "💼",
+                        "user": "🗒️",
+                        "vetur": "✌"
+                      },
+                      "properties": {
+                        "workspace": {
+                          "type": "string",
+                          "default": "💼",
+                          "markdownDescription": "Show Scaffold Snippets from `<WORKSPACE>/.vscode/vetur/snippets`."
+                        },
+                        "user": {
+                          "type": "string",
+                          "default": "🗒️",
+                          "markdownDescription": "Show Scaffold Snippets from `<USER-DATA-DIR>/User/snippets/vetur`."
+                        },
+                        "vetur": {
+                          "type": "string",
+                          "default": "✌",
+                          "description": "Show Scaffold Snippets bundled in Vetur."
+                        }
+                      },
+                      "markdownDescription": "Where Vetur sources Scaffold Snippets from and how to indicate them. Set a source to `\"\"` to disable it.\n\n- workspace: `<WORKSPACE>/.vscode/vetur/snippets`.\n- user: `<USER-DATA-DIR>/User/snippets/vetur`.\n- vetur: Bundled in Vetur.\n\nThe default is:\n```\n\"completion.scaffoldSnippetSources\": {\n  \"workspace\": \"💼\",\n  \"user\": \"🗒️\",\n  \"vetur\": \"✌\"\n}\n```\n\nAlternatively, you can do:\n\n```\n\"completion.scaffoldSnippetSources\": {\n  \"workspace\": \"(W)\",\n  \"user\": \"(U)\",\n  \"vetur\": \"(V)\"\n}\n```\n\nRead more: https://vuejs.github.io/vetur/snippet.html."
+                    },
+                    "vetur.completion.tagCasing": {
+                      "type": "string",
+                      "default": "kebab",
+                      "enum": [
+                        "initial",
+                        "kebab"
+                      ],
+                      "markdownEnumDescriptions": [
+                        "use the key in `components: {...}` as is for tag completion and do not force any casing",
+                        "kebab-case completion for `<my-tag>`"
+                      ],
+                      "description": "Casing conversion for tag completion."
+                    },
+                    "vetur.experimental.templateInterpolationService": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Enable template interpolation service that offers hover / definition / references in Vue interpolations."
+                    },
+                    "vetur.format.enable": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Enable/disable the Vetur document formatter."
+                    },
+                    "vetur.format.defaultFormatter.html": {
+                      "type": "string",
+                      "default": "prettier",
+                      "enum": [
+                        "none",
+                        "prettyhtml",
+                        "js-beautify-html",
+                        "prettier"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "🚧 [DEPRECATED] prettyhtml",
+                        "html formatter of js-beautify",
+                        "prettier"
+                      ],
+                      "markdownDescription": "Default formatter for `<template>` region."
+                    },
+                    "vetur.format.defaultFormatter.pug": {
+                      "type": "string",
+                      "default": "prettier",
+                      "enum": [
+                        "none",
+                        "prettier"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "prettier"
+                      ],
+                      "markdownDescription": "Default formatter for `<template lang='pug'>` region."
+                    },
+                    "vetur.format.defaultFormatter.css": {
+                      "type": "string",
+                      "default": "prettier",
+                      "enum": [
+                        "none",
+                        "prettier"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "css formatter using css parser from prettier"
+                      ],
+                      "markdownDescription": "Default formatter for `<style>` region."
+                    },
+                    "vetur.format.defaultFormatter.postcss": {
+                      "type": "string",
+                      "default": "prettier",
+                      "enum": [
+                        "none",
+                        "prettier"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "postcss formatter using css parser from prettier"
+                      ],
+                      "markdownDescription": "Default formatter for `<style lang='postcss'>` region."
+                    },
+                    "vetur.format.defaultFormatter.scss": {
+                      "type": "string",
+                      "default": "prettier",
+                      "enum": [
+                        "none",
+                        "prettier"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "scss formatter using scss parser from prettier"
+                      ],
+                      "markdownDescription": "Default formatter for `<style lang='scss'>` region."
+                    },
+                    "vetur.format.defaultFormatter.sass": {
+                      "type": "string",
+                      "default": "sass-formatter",
+                      "enum": [
+                        "none",
+                        "sass-formatter"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "sass formatter"
+                      ],
+                      "markdownDescription": "Default formatter for `<style lang='sass'>` region."
+                    },
+                    "vetur.format.defaultFormatter.less": {
+                      "type": "string",
+                      "default": "prettier",
+                      "enum": [
+                        "none",
+                        "prettier"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "less formatter using postcss parser from prettier"
+                      ],
+                      "markdownDescription": "Default formatter for `<style lang='less'>` region."
+                    },
+                    "vetur.format.defaultFormatter.stylus": {
+                      "type": "string",
+                      "default": "stylus-supremacy",
+                      "enum": [
+                        "none",
+                        "stylus-supremacy"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "stylus formatter from stylus-supremacy"
+                      ],
+                      "markdownDescription": "Default formatter for `<style lang='stylus'>` region."
+                    },
+                    "vetur.format.defaultFormatter.js": {
+                      "type": "string",
+                      "default": "prettier",
+                      "enum": [
+                        "none",
+                        "prettier",
+                        "prettier-eslint",
+                        "vscode-typescript"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "js formatter from prettier",
+                        "prettier-eslint",
+                        "js formatter from TypeScript"
+                      ],
+                      "markdownDescription": "Default formatter for `<script>` region."
+                    },
+                    "vetur.format.defaultFormatter.ts": {
+                      "type": "string",
+                      "default": "prettier",
+                      "enum": [
+                        "none",
+                        "prettier",
+                        "prettier-tslint",
+                        "vscode-typescript"
+                      ],
+                      "enumDescriptions": [
+                        "disable formatting",
+                        "ts formatter using typescript parser from prettier",
+                        "ts formatter from TypeScript"
+                      ],
+                      "markdownDescription": "Default formatter for `<script>` region."
+                    },
+                    "vetur.format.defaultFormatterOptions": {
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
-                        "vetur.ignoreProjectWarning": {
-                          "type": "boolean",
-                          "default": false,
-                          "description": "Vetur will warn about not setup correctly for the project. You can disable it."
-                        },
-                        "vetur.completion.autoImport": {
-                          "type": "boolean",
-                          "default": true,
-                          "description": "Include completion for module export and auto import them."
-                        },
-                        "vetur.completion.scaffoldSnippetSources": {
+                        "prettier": {
                           "type": "object",
-                          "default": {
-                            "workspace": "💼",
-                            "user": "🗒️",
-                            "vetur": "✌"
-                          },
+                          "markdownDescription": "Global prettier config used by prettier formatter. Used by `prettier` and `prettier-eslint`.\n\nVetur will prefer a prettier config file at home directory if one exists.",
+                        },
+                        "prettyhtml": {
+                          "type": "object",
+                          "markdownDescription": "Options for prettyhtml.",
                           "properties": {
-                            "workspace": {
-                              "type": "string",
-                              "default": "💼",
-                              "markdownDescription": "Show Scaffold Snippets from `<WORKSPACE>/.vscode/vetur/snippets`."
+                            "printWidth": {
+                              "type": "number",
+                              "default": 100,
+                              "description": "Maximum amount of characters allowed per line."
                             },
-                            "user": {
-                              "type": "string",
-                              "default": "🗒️",
-                              "markdownDescription": "Show Scaffold Snippets from `<USER-DATA-DIR>/User/snippets/vetur`."
+                            "singleQuote": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Whether to use single quotes by default."
                             },
-                            "vetur": {
-                              "type": "string",
-                              "default": "✌",
-                              "description": "Show Scaffold Snippets bundled in Vetur."
+                            "wrapAttributes": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Whether to wrap attributes."
+                            },
+                            "sortAttributes": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Whether to sort attributes."
                             }
-                          },
-                          "markdownDescription": "Where Vetur sources Scaffold Snippets from and how to indicate them. Set a source to `\"\"` to disable it.\n\n- workspace: `<WORKSPACE>/.vscode/vetur/snippets`.\n- user: `<USER-DATA-DIR>/User/snippets/vetur`.\n- vetur: Bundled in Vetur.\n\nThe default is:\n```\n\"completion.scaffoldSnippetSources\": {\n  \"workspace\": \"💼\",\n  \"user\": \"🗒️\",\n  \"vetur\": \"✌\"\n}\n```\n\nAlternatively, you can do:\n\n```\n\"completion.scaffoldSnippetSources\": {\n  \"workspace\": \"(W)\",\n  \"user\": \"(U)\",\n  \"vetur\": \"(V)\"\n}\n```\n\nRead more: https://vuejs.github.io/vetur/snippet.html."
+                          }
                         },
-                        "vetur.completion.tagCasing": {
-                          "type": "string",
-                          "default": "kebab",
-                          "enum": [
-                            "initial",
-                            "kebab"
-                          ],
-                          "markdownEnumDescriptions": [
-                            "use the key in `components: {...}` as is for tag completion and do not force any casing",
-                            "kebab-case completion for `<my-tag>`"
-                          ],
-                          "description": "Casing conversion for tag completion."
-                        },
-                        "vetur.experimental.templateInterpolationService": {
-                          "type": "boolean",
-                          "default": false,
-                          "description": "Enable template interpolation service that offers hover / definition / references in Vue interpolations."
-                        },
-                        "vetur.format.enable": {
-                          "type": "boolean",
-                          "default": true,
-                          "description": "Enable/disable the Vetur document formatter."
-                        },
-                        "vetur.format.defaultFormatter.html": {
-                          "type": "string",
-                          "default": "prettier",
-                          "enum": [
-                            "none",
-                            "prettyhtml",
-                            "js-beautify-html",
-                            "prettier"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "🚧 [DEPRECATED] prettyhtml",
-                            "html formatter of js-beautify",
-                            "prettier"
-                          ],
-                          "markdownDescription": "Default formatter for `<template>` region."
-                        },
-                        "vetur.format.defaultFormatter.pug": {
-                          "type": "string",
-                          "default": "prettier",
-                          "enum": [
-                            "none",
-                            "prettier"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "prettier"
-                          ],
-                          "markdownDescription": "Default formatter for `<template lang='pug'>` region."
-                        },
-                        "vetur.format.defaultFormatter.css": {
-                          "type": "string",
-                          "default": "prettier",
-                          "enum": [
-                            "none",
-                            "prettier"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "css formatter using css parser from prettier"
-                          ],
-                          "markdownDescription": "Default formatter for `<style>` region."
-                        },
-                        "vetur.format.defaultFormatter.postcss": {
-                          "type": "string",
-                          "default": "prettier",
-                          "enum": [
-                            "none",
-                            "prettier"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "postcss formatter using css parser from prettier"
-                          ],
-                          "markdownDescription": "Default formatter for `<style lang='postcss'>` region."
-                        },
-                        "vetur.format.defaultFormatter.scss": {
-                          "type": "string",
-                          "default": "prettier",
-                          "enum": [
-                            "none",
-                            "prettier"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "scss formatter using scss parser from prettier"
-                          ],
-                          "markdownDescription": "Default formatter for `<style lang='scss'>` region."
-                        },
-                        "vetur.format.defaultFormatter.sass": {
-                          "type": "string",
-                          "default": "sass-formatter",
-                          "enum": [
-                            "none",
-                            "sass-formatter"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "sass formatter"
-                          ],
-                          "markdownDescription": "Default formatter for `<style lang='sass'>` region."
-                        },
-                        "vetur.format.defaultFormatter.less": {
-                          "type": "string",
-                          "default": "prettier",
-                          "enum": [
-                            "none",
-                            "prettier"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "less formatter using postcss parser from prettier"
-                          ],
-                          "markdownDescription": "Default formatter for `<style lang='less'>` region."
-                        },
-                        "vetur.format.defaultFormatter.stylus": {
-                          "type": "string",
-                          "default": "stylus-supremacy",
-                          "enum": [
-                            "none",
-                            "stylus-supremacy"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "stylus formatter from stylus-supremacy"
-                          ],
-                          "markdownDescription": "Default formatter for `<style lang='stylus'>` region."
-                        },
-                        "vetur.format.defaultFormatter.js": {
-                          "type": "string",
-                          "default": "prettier",
-                          "enum": [
-                            "none",
-                            "prettier",
-                            "prettier-eslint",
-                            "vscode-typescript"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "js formatter from prettier",
-                            "prettier-eslint",
-                            "js formatter from TypeScript"
-                          ],
-                          "markdownDescription": "Default formatter for `<script>` region."
-                        },
-                        "vetur.format.defaultFormatter.ts": {
-                          "type": "string",
-                          "default": "prettier",
-                          "enum": [
-                            "none",
-                            "prettier",
-                            "prettier-tslint",
-                            "vscode-typescript"
-                          ],
-                          "enumDescriptions": [
-                            "disable formatting",
-                            "ts formatter using typescript parser from prettier",
-                            "ts formatter from TypeScript"
-                          ],
-                          "markdownDescription": "Default formatter for `<script>` region."
-                        },
-                        "vetur.format.defaultFormatterOptions": {
+                        "js-beautify-html": {
                           "type": "object",
-                          "additionalProperties": false,
-                          "properties": {
-                            "prettier": {
-                              "type": "object",
-                              "markdownDescription": "Global prettier config used by prettier formatter. Used by `prettier` and `prettier-eslint`.\n\nVetur will prefer a prettier config file at home directory if one exists.",
-                            },
-                            "prettyhtml": {
-                              "type": "object",
-                              "markdownDescription": "Options for prettyhtml.",
-                              "properties": {
-                                "printWidth": {
-                                  "type": "number",
-                                  "default": 100,
-                                  "description": "Maximum amount of characters allowed per line."
-                                },
-                                "singleQuote": {
-                                  "type": "boolean",
-                                  "default": false,
-                                  "description": "Whether to use single quotes by default."
-                                },
-                                "wrapAttributes": {
-                                  "type": "boolean",
-                                  "default": false,
-                                  "description": "Whether to wrap attributes."
-                                },
-                                "sortAttributes": {
-                                  "type": "boolean",
-                                  "default": false,
-                                  "description": "Whether to sort attributes."
-                                }
-                              }
-                            },
-                            "js-beautify-html": {
-                              "type": "object",
-                              "markdownDescription": "Options for js-beautify."
-                            }
-                          },
-                          "default": {
-                            "js-beautify-html": {
-                              "wrap_attributes": "force-expand-multiline"
-                            },
-                            "prettyhtml": {
-                              "printWidth": 100,
-                              "singleQuote": false,
-                              "wrapAttributes": false,
-                              "sortAttributes": false
-                            }
-                          },
-                          "description": "Options for all default formatters."
+                          "markdownDescription": "Options for js-beautify."
+                        }
+                      },
+                      "default": {
+                        "js-beautify-html": {
+                          "wrap_attributes": "force-expand-multiline"
                         },
-                        "vetur.format.scriptInitialIndent": {
-                          "type": "boolean",
-                          "default": false,
-                          "markdownDescription": "Whether to have initial indent for `<script>` region."
-                        },
-                        "vetur.format.styleInitialIndent": {
-                          "type": "boolean",
-                          "default": false,
-                          "markdownDescription": "Whether to have initial indent for `<style>` region."
-                        },
-                        "vetur.format.options.tabSize": {
-                          "type": "number",
-                          "default": 2,
-                          "description": "Number of spaces per indentation level. Inherited by all formatters."
-                        },
-                        "vetur.format.options.useTabs": {
-                          "type": "boolean",
-                          "default": false,
-                          "description": "Use tabs for indentation. Inherited by all formatters."
-                        },
-                        "vetur.languageFeatures.codeActions": {
-                          "type": "boolean",
-                          "default": true,
-                          "description": "Whether to enable codeActions."
-                        },
-                        "vetur.languageFeatures.updateImportOnFileMove": {
-                          "type": "boolean",
-                          "default": true,
-                          "description": "Whether to automatically update the import path when renaming or moving a file."
-                        },
-                        "vetur.useWorkspaceDependencies": {
-                          "type": "boolean",
-                          "default": false,
-                          "description": "Use dependencies from workspace. Currently only for TypeScript."
-                        },
-                        "vetur.validation.template": {
-                          "type": "boolean",
-                          "default": true,
-                          "markdownDescription": "Validate vue-html in `<template>` using eslint-plugin-vue."
-                        },
-                        "vetur.validation.templateProps": {
-                          "type": "boolean",
-                          "default": false,
-                          "markdownDescription": "Validate props usage in `<template>` region. Show error/warning for not passing declared props to child components."
-                        },
-                        "vetur.validation.interpolation": {
-                          "type": "boolean",
-                          "default": true,
-                          "markdownDescription": "Validate interpolations in `<template>` region using TypeScript language service."
-                        },
-                        "vetur.validation.style": {
-                          "type": "boolean",
-                          "default": true,
-                          "markdownDescription": "Validate css/scss/less/postcss in `<style>`."
-                        },
-                        "vetur.validation.script": {
-                          "type": "boolean",
-                          "default": true,
-                          "markdownDescription": "Validate js/ts in `<script>`."
-                        },
-                        "css": {
-                          "type": "object",
-                          "description": "Options for the CSS language features."
-                        },
-                        "emmet": {
-                          "type": "object",
-                          "description": "Options for Emmet."
-                        },
-                        "stylusSupremacy": {
-                          "type": "object",
-                          "description": "Options for Stylus."
-                        },
-                        "html": {
-                          "type": "object",
-                          "description": "Options for HTML language features."
-                        },
-                        "javascript": {
-                          "type": "object",
-                          "description": "Options for Javascript language features."
-                        },
-                        "typescript": {
-                          "type": "object",
-                          "description": "Options for Typescript language features."
-                        },
-                      }
-                    }
+                        "prettyhtml": {
+                          "printWidth": 100,
+                          "singleQuote": false,
+                          "wrapAttributes": false,
+                          "sortAttributes": false
+                        }
+                      },
+                      "description": "Options for all default formatters."
+                    },
+                    "vetur.format.scriptInitialIndent": {
+                      "type": "boolean",
+                      "default": false,
+                      "markdownDescription": "Whether to have initial indent for `<script>` region."
+                    },
+                    "vetur.format.styleInitialIndent": {
+                      "type": "boolean",
+                      "default": false,
+                      "markdownDescription": "Whether to have initial indent for `<style>` region."
+                    },
+                    "vetur.format.options.tabSize": {
+                      "type": "number",
+                      "default": 2,
+                      "description": "Number of spaces per indentation level. Inherited by all formatters."
+                    },
+                    "vetur.format.options.useTabs": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Use tabs for indentation. Inherited by all formatters."
+                    },
+                    "vetur.languageFeatures.codeActions": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Whether to enable codeActions."
+                    },
+                    "vetur.languageFeatures.updateImportOnFileMove": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Whether to automatically update the import path when renaming or moving a file."
+                    },
+                    "vetur.useWorkspaceDependencies": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Use dependencies from workspace. Currently only for TypeScript."
+                    },
+                    "vetur.validation.template": {
+                      "type": "boolean",
+                      "default": true,
+                      "markdownDescription": "Validate vue-html in `<template>` using eslint-plugin-vue."
+                    },
+                    "vetur.validation.templateProps": {
+                      "type": "boolean",
+                      "default": false,
+                      "markdownDescription": "Validate props usage in `<template>` region. Show error/warning for not passing declared props to child components."
+                    },
+                    "vetur.validation.interpolation": {
+                      "type": "boolean",
+                      "default": true,
+                      "markdownDescription": "Validate interpolations in `<template>` region using TypeScript language service."
+                    },
+                    "vetur.validation.style": {
+                      "type": "boolean",
+                      "default": true,
+                      "markdownDescription": "Validate css/scss/less/postcss in `<style>`."
+                    },
+                    "vetur.validation.script": {
+                      "type": "boolean",
+                      "default": true,
+                      "markdownDescription": "Validate js/ts in `<script>`."
+                    },
+                    "css": {
+                      "type": "object",
+                      "description": "Options for the CSS language features."
+                    },
+                    "emmet": {
+                      "type": "object",
+                      "description": "Options for Emmet."
+                    },
+                    "stylusSupremacy": {
+                      "type": "object",
+                      "description": "Options for Stylus."
+                    },
+                    "html": {
+                      "type": "object",
+                      "description": "Options for HTML language features."
+                    },
+                    "javascript": {
+                      "type": "object",
+                      "description": "Options for Javascript language features."
+                    },
+                    "typescript": {
+                      "type": "object",
+                      "description": "Options for Typescript language features."
+                    },
                   }
                 }
               }
