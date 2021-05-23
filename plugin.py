@@ -22,8 +22,7 @@ class LspVuePlugin(NpmClientHandler):
         if view:
             view_settings = view.settings()
             configuration \
-                .setdefault('initializationOptions', {}) \
-                .setdefault('config', {}) \
+                .setdefault('settings', {}) \
                 .setdefault('vetur', {}) \
                 .setdefault('format', {}) \
                 .setdefault('options', {}) \
