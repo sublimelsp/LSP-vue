@@ -1,13 +1,14 @@
+from LSP.plugin import DottedDict
 from lsp_utils import NpmClientHandler
 import os
 import sublime
 
 
-def plugin_loaded():
+def plugin_loaded() -> None:
     LspVuePlugin.setup()
 
 
-def plugin_unloaded():
+def plugin_unloaded() -> None:
     LspVuePlugin.cleanup()
 
 
@@ -16,17 +17,13 @@ class LspVuePlugin(NpmClientHandler):
     server_directory = 'server'
     server_binary_path = os.path.join(server_directory, 'node_modules', 'vls', 'bin', 'vls')
 
-    @classmethod
-    def on_client_configuration_ready(cls, configuration: dict):
+    def on_settings_changed(self, settings: DottedDict) -> None:
         view = sublime.active_window().active_view()
         if view:
             view_settings = view.settings()
-            configuration \
-                .setdefault('settings', {}) \
-                .setdefault('vetur', {}) \
-                .setdefault('format', {}) \
-                .setdefault('options', {}) \
-                .update({
+            settings.update({
+                'vetur.format.options': {
                     'tabSize': view_settings.get('tab_size', 4),
                     'useTabs': not view_settings.get('translate_tabs_to_spaces', False)
-                })
+                }
+            })
