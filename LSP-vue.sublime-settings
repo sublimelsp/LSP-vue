@@ -11,6 +11,11 @@
 			"feature_selector": "text.html.vue",
 		}
 	],
+	// File watching functionality only works with "LSP-file-watcher-chokidar" package installed.
+	"file_watcher": {
+		"pattern": "{**/*.js,**/*.ts,**/*.json}",
+		"events": ["create", "change"]
+	},
 	"settings": {
 		"vetur.ignoreProjectWarning": false,
 		"vetur.completion.autoImport": false,
