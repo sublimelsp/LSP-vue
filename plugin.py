@@ -22,8 +22,6 @@ class LspVuePlugin(NpmClientHandler):
         if view:
             view_settings = view.settings()
             settings.update({
-                'vetur.format.options': {
-                    'tabSize': view_settings.get('tab_size', 4),
-                    'useTabs': not view_settings.get('translate_tabs_to_spaces', False)
-                }
+                'vetur.format.options.tabSize': view_settings.get('tab_size', 4),
+                'vetur.format.options.useTabs': not view_settings.get('translate_tabs_to_spaces', False),
             })
