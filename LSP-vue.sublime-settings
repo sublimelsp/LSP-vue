@@ -82,15 +82,14 @@
 		"events": ["create", "change"]
 	},
 	"command": ["${node_bin}", "${server_path}", "--stdio"],
+	// ST4
+	"selector": "text.html.vue",
+	// ST3
 	"languages": [
 		{
 			"languageId": "vue",
-			// ST3
 			"scopes": ["text.html.vue"],
 			"syntaxes": ["Packages/Vue Syntax Highlight/Vue Component.sublime-syntax"],
-			// ST4
-			"document_selector": "text.html.vue",
-			"feature_selector": "text.html.vue",
 		}
 	],
 }
