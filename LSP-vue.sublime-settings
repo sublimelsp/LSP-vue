@@ -84,6 +84,7 @@
 	"command": ["${node_bin}", "${server_path}", "--stdio"],
 	// ST4
 	"selector": "text.html.vue",
+	"priority_selector": "text.html.vue",
 	// ST3
 	"languages": [
 		{
