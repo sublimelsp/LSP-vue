@@ -2,6 +2,6 @@
   "name": "sublime-vls",
   "version": "1.0.0",
   "dependencies": {
-    "vls": "^0.8.2"
+    "vls": "^0.8.4"
   }
 }
