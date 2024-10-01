@@ -1,8 +1,0 @@
-=> 2.0.0
-
-# Breaking change
-
-The configuration structure has changed.
-
-If you have modified the LSP-vue settings, please open "Preferences: LSP-vue Settings" from the Command Palette
-and rename the "initializationOptions" key to "settings".
