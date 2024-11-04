@@ -1,3 +1,4 @@
+from __future__ import annotations
 from LSP.plugin import ClientConfig
 from LSP.plugin import WorkspaceFolder
 from LSP.plugin.core.typing import Any, Callable, List, Optional, Mapping
@@ -7,34 +8,36 @@ from lsp_utils import NpmClientHandler
 import os
 import sublime
 
+PACKAGE_NAME = __package__
+SERVER_DIRECTORY = 'server'
+SERVER_NODE_MODULES = os.path.join(SERVER_DIRECTORY, 'node_modules')
+SERVER_BINARY_PATH =  os.path.join(SERVER_NODE_MODULES, '@vue', 'language-server', 'bin', 'vue-language-server.js')
 
 def plugin_loaded():
-    LspVolarPlugin.setup()
+    LspVuePlugin.setup()
 
 
 def plugin_unloaded():
-    LspVolarPlugin.cleanup()
+    LspVuePlugin.cleanup()
 
 
-class LspVolarPlugin(NpmClientHandler):
-    package_name = __package__
-    server_directory = 'server'
-    server_binary_path = os.path.join(server_directory, 'node_modules', '@vue', 'language-server', 'bin', 'vue-language-server.js')
+class LspVuePlugin(NpmClientHandler):
+    package_name = PACKAGE_NAME
+    server_directory = SERVER_DIRECTORY
+    server_binary_path = SERVER_BINARY_PATH
 
     @classmethod
     def required_node_version(cls) -> str:
-        return '>=16'
+        return '>=18'
 
     @classmethod
     def is_allowed_to_start(
         cls,
         window: sublime.Window,
-        initiating_view: Optional[sublime.View] = None,
-        workspace_folders: Optional[List[WorkspaceFolder]] = None,
-        configuration: Optional[ClientConfig] = None
+        initiating_view: sublime.View,
+        workspace_folders: List[WorkspaceFolder],
+        configuration: ClientConfig
     ) -> Optional[str]:
-        if not workspace_folders or not configuration:
-            return 'Can not run without a workspace folder'
         if configuration.init_options.get('typescript.tsdk'):
             return  # don't find the `typescript.tsdk` if it was set explicitly in LSP-volar.sublime-settings
         typescript_lib_path = cls.find_typescript_lib_path(workspace_folders[0].path)

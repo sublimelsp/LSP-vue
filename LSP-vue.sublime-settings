@@ -1,26 +1,10 @@
 {
 	"initializationOptions": {
-		// List any additional file extensions that should be processed as Vue files.
-		"additionalExtensions": [],
-		// Path to volar.config.js.
-		"configFilePath": "./volar.config.js",
-		// Diagnostic update model. (1 - Push, 2 - Pull)
-		"diagnosticModel": 2,
-		// Enable this option if you want to get complete CompletionList in language client.
-		// (Disable for better performance)
-		"fullCompletionList": false,
-		// Maximum file size for Vue Server to load. (default: 20MB)
-		"maxFileSize": 20971520,
-		// Defines which auto-complete popup trigger characters that Volar defines are allowed.
-		// By default all Volar trigger characters are disabled as ST does a better job.
-		"ignoreTriggerCharacters": [],
-		"json.customBlockSchemaUrls": {},
-		// Reverse priority for tsconfig pickup.
-		"reverseConfigFilePriority": false,
-		// Specify the `typescript.tsdk` to tsserverlibrary.js.
-		// If not specified LSP-volar will use the typescript from the workspace if it exist,
-		// else the typescript bundled with LSP-volar will be used.
-		// "typescript.tsdk": "/path/to/tsserverlibrary.js",
+		// DON'T use this option until related issues are ironed out - see https://github.com/sublimelsp/LSP/issues/2526
+		// When `true`, the Vue Language Server handles the CSS/HTML sections and partially the SCRIPT section (for
+		// type-checking it relies on the LSP-typescript server with `@vue/typescript-plugin` TS plugin enabled).
+		// When set to `false`, the Vue Language Server handles everything by itself.
+		"vue.hybridMode": false,
 	},
 	"settings": {
 		// Preferred tag name case.
@@ -37,30 +21,22 @@
 		//  - "kebab": :kebab-case="..."
 		//  - "pascal": :camelCase="..."
 		"vue.complete.casing.props": "autoKebab",
-		// Normalize import name for auto import. ("myCompVue" -> "MyComp")
-		"vue.features.complete.normalizeComponentImportName": true,
+		// Auto add `const props = ` before `defineProps` when selecting the completion item `props`, `emit` and `slots`.
+		"vue.complete.defineAssignment": true,
+		// Show inlay hints for destructured props.
+		"vue.inlayHints.destructuredProps": false,
 		// Show inlay hints for missing required props.
 		"vue.inlayHints.missingProps": false,
 		// Show inlay hints for event argument in inline handlers.
 		"vue.inlayHints.inlineHandlerLeading": false,
 		// Show inlay hints for component options wrapper for type support.
-		"vue.inlayHints.optionsWrapper": true,
+		"vue.inlayHints.optionsWrapper": false,
+		// Show inlay hints for v-bind shorthand.
+		"vue.inlayHints.vBindShorthand": false,
 		// Whether to have initial indent.
-		"volar.format.initialIndent": {
-			"css": false,
-			"html": true,
-			"jade": false,
-			"javascript": false,
-			"javascriptreact": false,
-			"json": false,
-			"json5": false,
-			"jsonc": false,
-			"less": false,
-			"sass": false,
-			"scss": false,
-			"typescript": false,
-			"typescriptreact": false,
-		},
+		"vue.format.template.initialIndent": true,
+		"vue.format.style.initialIndent": false,
+		"vue.format.script.initialIndent": false,
 		// javascript inlay hint
 		"javascript.inlayHints.enumMemberValues.enabled": false,
 		"javascript.inlayHints.functionLikeReturnTypes.enabled": false,
