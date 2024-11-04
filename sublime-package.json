@@ -22,7 +22,7 @@
                         "boolean",
                       ],
                       "default": true,
-                      "markdownDescription": "DON'T use this option until related issues are ironed out - see https://github.com/sublimelsp/LSP/issues/2526\nWhen `true`, the Vue Language Server handles the CSS/HTML sections and partially the SCRIPT section (for type-checking it relies on the LSP-typescript server with `@vue/typescript-plugin` TS plugin enabled). When set to `false`, the Vue Language Server handles everything by itself."
+                      "markdownDescription": "DON'T use this option until related issues are ironed out - see https://github.com/sublimelsp/LSP/issues/2526\nWhen `true`, the Vue Language Server handles the CSS/HTML sections and partially the SCRIPT section (for type-checking it relies on the LSP-typescript server with `@vue/typescript-plugin` TS plugin enabled). When set to `false`, the Vue Language Server handles everything itself."
                     }
                   },
                 },
