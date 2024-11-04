@@ -1,5 +1,5 @@
 # Breaking change
 
-This server is now based on Vue Language Serve 2.x rather than the deprecated and no longer updated Vetur.
+This server is now based on the Vue Language Server 2.x rather than the deprecated and no longer updated Vetur.
 
-The legacy, deprecated Vetur is now available as a LSP-vetur package.
+The legacy, deprecated Vetur is now available through the LSP-vetur package for those who really need it.
