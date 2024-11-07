@@ -16,11 +16,11 @@
                 "id": "lsp-servers",
                 "children": [
                   {
-                    "caption": "LSP-volar",
+                    "caption": "LSP-vue",
                     "command": "edit_settings",
                     "args": {
-                      "base_file": "${packages}/LSP-volar/LSP-volar.sublime-settings",
-                      "default": "// Settings in here override those in \"LSP-volar/LSP-volar.sublime-settings\"\n\n{\n\t$0\n}\n"
+                      "base_file": "${packages}/LSP-vue/LSP-vue.sublime-settings",
+                      "default": "// Settings in here override those in \"LSP-vue/LSP-vue.sublime-settings\"\n\n{\n\t$0\n}\n"
                     }
                   }
                 ]

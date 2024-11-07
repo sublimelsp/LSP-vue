@@ -3,73 +3,27 @@
     "settings": [
       {
         "file_patterns": [
-          "/LSP-volar.sublime-settings"
+          "/LSP-vue.sublime-settings"
         ],
         "schema": {
-          "$id": "sublime://settings/LSP-volar",
+          "$id": "sublime://settings/LSP-vue",
           "definitions": {
             "PluginConfig": {
               "properties": {
                 "initializationOptions": {
                   "additionalProperties": false,
                   "properties": {
-                    "additionalExtensions": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "default": [],
-                      "description": "List any additional file extensions that should be processed as Vue files."
-                    },
-                    "configFilePath": {
-                      "type": "string",
-                      "default": "./volar.config.js",
-                      "description": "Path to volar.config.js."
-                    },
-                    "diagnosticModel": {
-                      "type": "integer",
-                      "default": 2,
-                      "enum": [
-                        1,
-                        2
-                      ],
-                      "enumDescriptions": [
-                        "Diagnostic push by language server.",
-                        "Diagnostic pull by language client."
-                      ],
-                      "description": "Diagnostic update model."
-                    },
-                    "fullCompletionList": {
-                      "type": "boolean",
-                      "default": false,
-                      "description": "Enable this option if you want to get complete CompletionList in language client. (Disable for better performance)"
-                    },
-                    "maxFileSize": {
-                      "type": "number",
-                      "default": 20971520,
-                      "description": "Maximum file size for Vue Server to load. (default: 20MB)"
-                    },
-                    "json.customBlockSchemaUrls": {
-                      "type": "object"
-                    },
-                    "reverseConfigFilePriority": {
-                      "type": "boolean",
-                      "default": false,
-                      "description": "Reverse priority for tsconfig pickup."
-                    },
                     "typescript.tsdk": {
                       "type": "string",
                       "description": "Path to tsserver's lib directory."
                     },
-                    "ignoreTriggerCharacters": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "maxLength": 1
-                      },
-                      "default": [],
-                      "description": "Defines which auto-complete popup trigger characters that Volar defines are allowed.\nBy default all Volar trigger characters are disabled as ST does a better job."
-                    },
+                    "vue.hybridMode": {
+                      "type": [
+                        "boolean",
+                      ],
+                      "default": false,
+                      "markdownDescription": "DON'T use this option until known issues are ironed out - https://github.com/sublimelsp/LSP-vue/issues/130.\n\nWhen `true`, the Vue Language Server handles the CSS/HTML sections and partially the SCRIPT section but for the JS/TS-specific functionality it relies on the `LSP-typescript` server with `@vue/typescript-plugin` TS plugin enabled. When set to `false`, the Vue Language Server handles everything itself."
+                    }
                   },
                 },
                 "settings": {
@@ -643,26 +597,27 @@
                       "default": "autoKebab",
                       "description": "Preferred attr name case."
                     },
-                    "vue.features.complete.normalizeComponentImportName": {
+                    "vue.complete.defineAssignment": {
                       "type": "boolean",
                       "default": true,
-                      "description": "Normalize import name for auto import. (\"myCompVue\" -> \"MyComp\")"
+                      "markdownDescription": "Auto add `const props = ` before `defineProps` when selecting the completion item `props`, `emit` and `slots`."
                     },
-                    // "vue.features.autoInsert.parentheses": {
-                    //   "type": "boolean",
-                    //   "default": true,
-                    //   "description": "Auto-wrap `()` to As Expression in interpolations for fix issue #520."
-                    // },
-                    // "vue.features.autoInsert.dotValue": {
-                    //   "type": "boolean",
-                    //   "default": false,
-                    //   "description": "Auto-complete Ref value with `.value`."
-                    // },
-                    // "vue.features.autoInsert.bracketSpacing": {
+                    "vue.features.autoInsert.dotValue": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Auto-complete Ref value with `.value`."
+                    },
+                    // Relies on custom "volar/client/autoInsert" request.
+                    // "vue.autoInsert.bracketSpacing": {
                     //   "type": "boolean",
                     //   "default": true,
                     //   "description": "Auto add space between double curly brackets: {{|}} -> {{ | }}"
                     // },
+                    "vue.inlayHints.destructuredProps": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Show inlay hints for destructured props."
+                    },
                     "vue.inlayHints.missingProps": {
                       "type": "boolean",
                       "default": false,
@@ -675,74 +630,25 @@
                     },
                     "vue.inlayHints.optionsWrapper": {
                       "type": "boolean",
-                      "default": true,
+                      "default": false,
                       "description": "Show inlay hints for component options wrapper for type support."
                     },
-                    "volar.diagnostics.delay": {
-                      "default": 200,
-                      "description": "Delay time for diagnostics.",
-                      "type": "number"
+                    "vue.inlayHints.vBindShorthand": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Show inlay hints for v-bind shorthand."
                     },
-                    "volar.format.initialIndent": {
-                      "type": "object",
-                      "description": "Whether to have initial indent.",
-                      "default": {
-                        "html": true
-                      },
-                      "properties": {
-                        "html": {
-                          "type": "boolean",
-                          "default": true
-                        },
-                        "typescript": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "javascript": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "typescriptreact": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "javascriptreact": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "css": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "scss": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "less": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "sass": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "jade": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "json": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "jsonc": {
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "json5": {
-                          "type": "boolean",
-                          "default": false
-                        }
-                      }
+                    "vue.format.template.initialIndent": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "vue.format.style.initialIndent": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "vue.format.script.initialIndent": {
+                      "type": "boolean",
+                      "default": false
                     },
                     "typescript.preferences.autoImportFileExcludePatterns": {
                       "items": {
@@ -1070,7 +976,7 @@
               "$ref": "sublime://settings/LSP-plugin-base"
             },
             {
-              "$ref": "sublime://settings/LSP-volar#/definitions/PluginConfig"
+              "$ref": "sublime://settings/LSP-vue#/definitions/PluginConfig"
             }
           ]
         }
@@ -1085,8 +991,8 @@
               "properties": {
                 "LSP": {
                   "properties": {
-                    "LSP-volar": {
-                      "$ref": "sublime://settings/LSP-volar#/definitions/PluginConfig"
+                    "LSP-vue": {
+                      "$ref": "sublime://settings/LSP-vue#/definitions/PluginConfig"
                     }
                   }
                 }
@@ -1110,69 +1016,15 @@
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "experimentalCompatMode": {
-                    "deprecated": true
-                },
-                "experimentalTemplateCompilerOptions": {
-                    "deprecated": true
-                },
-                "experimentalTemplateCompilerOptionsRequirePath": {
-                    "deprecated": true
-                },
-                "experimentalDisableTemplateSupport": {
-                    "deprecated": true
-                },
-                "experimentalResolveNonScopedCssClasses": {
-                    "deprecated": true
-                },
-                "experimentalShamefullySupportOptionsApi": {
-                    "deprecated": true
-                },
-                "experimentalAllowTypeNarrowingInInlineHandlers": {
-                    "deprecated": true
-                },
-                "experimentalImplicitWrapComponentOptionsWithDefineComponent": {
-                    "deprecated": true
-                },
-                "experimentalDowngradePropsAndEmitsToSetupReturnOnScriptSetup": {
-                    "deprecated": true
-                },
-                "experimentalRuntimeMode": {
-                    "deprecated": true
-                },
-                "experimentalUseScriptLeadingCommentInTemplate": {
-                    "deprecated": true
-                },
-                "experimentalSuppressUnknownJsxPropertyErrors": {
-                    "deprecated": true
-                },
-                "experimentalSuppressInvalidJsxElementTypeErrors": {
-                    "deprecated": true
-                },
-                "experimentalImplicitWrapComponentOptionsWithVue2Extend": {
-                    "deprecated": true
-                },
-                "experimentalComponentOptionsWrapper": {
-                    "deprecated": true
-                },
-                "experimentalComponentOptionsWrapperEnable": {
-                    "deprecated": true
-                },
-                "bypassDefineComponentToExposePropsAndEmitsForJsScriptSetupComponents": {
-                    "deprecated": true
-                },
                 "target": {
-                  "type": "number",
-                  "default": 3,
-                  "anyOf": [
-                    {
-                      "enum": [
-                        2,
-                        2.7,
-                        3,
-                        3.3
-                      ]
-                    }
+                  "default": "auto",
+                  "enum": [
+                    "auto",
+                    2,
+                    2.7,
+                    3,
+                    3.3,
+                    3.5
                   ],
                   "markdownDescription": "Target version of Vue."
                 },
@@ -1181,11 +1033,25 @@
                   "default": [
                     ".vue"
                   ],
-                  "markdownDescription": "Valid file extensions that should be considered as regular Vue SFC. Please note that you should not use this option separately for additional file extensions IDE support, see https://github.com/johnsoncodehk/volar/tree/master/extensions/vscode-vue-language-features/README.md#custom-file-extensions."
+                  "markdownDescription": "Valid file extensions that should be considered as regular Vue SFC, please note that you should not use this option separately for additional file extensions IDE support, see https://github.com/vuejs/language-tools/tree/master/extensions/vscode/README.md#custom-file-extensions."
+                },
+                "vitePressExtensions": {
+                  "type": "array",
+                  "default": [
+                    ".md"
+                  ],
+                  "markdownDescription": "Valid file extensions that should be considered as regular VitePress SFC."
+                },
+                "petiteVueExtensions": {
+                  "type": "array",
+                  "default": [
+                    ".html"
+                  ],
+                  "markdownDescription": "Valid file extensions that should be considered as regular PetiteVue SFC."
                 },
                 "lib": {
-                  "default": "",
-                  "markdownDescription": "Specify module name for import regular types. (If empty, will use `@vue/runtime-dom` for target < 2.7, `vue` for target >= 2.7)"
+                  "default": "vue",
+                  "markdownDescription": "Specify module name for import regular types."
                 },
                 "jsxSlots": {
                   "type": "boolean",
@@ -1199,11 +1065,13 @@
                 },
                 "skipTemplateCodegen": {
                   "type": "boolean",
+                  "default": false,
                   "markdownDescription": "https://github.com/vuejs/language-tools/issues/577"
                 },
-                "nativeTags": {
-                  "deprecated": true,
-                  "description": "Deprecated since v1.5.1."
+                "fallthroughAttributes": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Enable to support typed fallthrough attributes. Please note that enabling may significantly slow down type checking."
                 },
                 "dataAttributes": {
                   "type": "array",
@@ -1222,10 +1090,6 @@
                   "default": [],
                   "markdownDescription": "Plugins to be used in the SFC compiler."
                 },
-                "hooks": {
-                  "type": "array",
-                  "markdownDescription": "https://github.com/vuejs/language-tools/pull/2217"
-                },
                 "optionsWrapper": {
                   "type": "array",
                   "default": [
@@ -1237,15 +1101,26 @@
                 "macros": {
                   "type": "object",
                   "default": {
-                    "defineProps": [ "defineProps" ],
-                    "defineEmits": [ "defineEmits" ],
-                    "defineExpose": [ "defineExpose" ],
-                    "withDefaults": [ "withDefaults" ]
+                    "defineProps": [
+                      "defineProps"
+                    ],
+                    "defineSlots": [
+                      "defineSlots"
+                    ],
+                    "defineEmits": [
+                      "defineEmits"
+                    ],
+                    "defineExpose": [
+                      "defineExpose"
+                    ],
+                    "withDefaults": [
+                      "withDefaults"
+                    ],
+                    "templateRef": [
+                      "templateRef",
+                      "useTemplateRef"
+                    ]
                   }
-                },
-                "narrowingTypesInInlineHandlers": {
-                  "type": "boolean",
-                  "markdownDescription": "https://github.com/johnsoncodehk/volar/issues/1249"
                 },
                 "experimentalResolveStyleCssClasses": {
                   "enum": [
@@ -1255,41 +1130,29 @@
                   ],
                   "markdownDescription": "https://github.com/vuejs/language-tools/issues/1038, https://github.com/vuejs/language-tools/issues/1121"
                 },
-                "experimentalRfc436": {
-                  "type": "boolean",
-                  "default": false,
-                  "markdownDescription": "https://github.com/vuejs/rfcs/discussions/436"
-                },
-                "experimentalUseElementAccessInTemplate": {
-                  "type": "boolean",
-                  "default": false,
-                  "markdownDescription": "https://github.com/vuejs/language-tools/issues/997"
-                },
                 "experimentalModelPropName": {
                   "type": "object",
                   "default": {
                     "": {
-                      "input": {
-                        "type": "radio"
-                      }
-                    },
-                    "checked": {
-                      "input": {
-                        "type": "checkbox"
-                      }
+                      "input": true
                     },
                     "value": {
-                      "input": true,
+                      "input": {
+                        "type": "text"
+                      },
                       "textarea": true,
                       "select": true
                     }
                   },
                   "markdownDescription": "https://github.com/vuejs/language-tools/issues/1969"
                 },
-                "experimentalAdditionalLanguageModules": {
-                  "type": "array",
-                  "markdownDescription": "https://github.com/vuejs/language-tools/pull/2267"
-                },
+                "experimentalDefinePropProposal": {
+                  "enum": [
+                    "kevinEdition",
+                    "johnsonEdition",
+                    false
+                  ]
+                }
               }
             }
           }
