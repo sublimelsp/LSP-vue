@@ -1,11 +1,10 @@
 # LSP-vue
 
-This is a helper package that automatically installs and updates the [Vue Language Server (formerly Volar)](https://github.com/vuejs/language-tools) for you.
+This is a helper package that automatically installs and updates the [Vue Language Server](https://github.com/vuejs/language-tools) (formerly Volar) for you.
 
 ## Table of Contents
   - [Installation](#installation)
   - [Configuration](#configuration)
-  - [Take over mode 🤝](#enable-for-non-vue-files)
   - [Inlay hints](#inlay-hints)
   - [Vue 2 support](#vue-2-support)
 
