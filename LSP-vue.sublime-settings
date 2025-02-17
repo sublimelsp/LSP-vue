@@ -1,9 +1,9 @@
 {
 	"initializationOptions": {
-		// DON'T use this option until known issues are ironed out - https://github.com/sublimelsp/LSP-vue/issues/130.
 		// When `true`, the Vue Language Server handles the CSS/HTML sections and partially the SCRIPT section but for
 		// the JS/TS-specific functionality it relies on the `LSP-typescript` server with `@vue/typescript-plugin` TS
 		// plugin enabled. When set to `false`, the Vue Language Server handles everything itself.
+		// Changing "vue.hybridMode" requires a restart of Sublime Text
 		"vue.hybridMode": false,
 	},
 	"settings": {
