@@ -1,8 +1,8 @@
 from __future__ import annotations
 from LSP.plugin import ClientConfig
 from LSP.plugin import WorkspaceFolder
-from LSP.plugin.core.typing import Any, Callable, List, Optional, Mapping
 from LSP.plugin.core.protocol import Location
+from LSP.plugin.core.typing import Any, Callable, List, Optional, Mapping
 from LSP.plugin.locationpicker import LocationPicker
 from lsp_utils import NpmClientHandler
 import os
@@ -44,6 +44,28 @@ class LspVuePlugin(NpmClientHandler):
         if not typescript_lib_path:
             return 'Could not resolve location of TypeScript package'
         configuration.init_options.set('typescript.tsdk', typescript_lib_path)
+
+    @classmethod
+    def on_pre_start(
+        cls,
+        window: sublime.Window,
+        initiating_view: sublime.View,
+        workspace_folders: list[WorkspaceFolder],
+        configuration: ClientConfig,
+    ) -> str | None:
+        cls._support_vue_hybrid_mode(configuration)
+
+    @classmethod
+    def _support_vue_hybrid_mode(cls, configuration: ClientConfig) -> None:
+        vue_hybrid_mode = bool(configuration.init_options.get('vue.hybridMode'))
+        if not vue_hybrid_mode:
+            return
+        configuration.disabled_capabilities.update({
+            "definitionProvider": True,
+            "referencesProvider": True,
+            "typeDefinitionProvider": True,
+        })
+        configuration.priority_selector = "text.html.vue source.js, text.html.vue source.ts"
 
     @classmethod
     def find_typescript_lib_path(cls, workspace_folder: str) -> Optional[str]:
