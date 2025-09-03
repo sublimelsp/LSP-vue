@@ -1,11 +1,4 @@
 {
-	"initializationOptions": {
-		// DON'T use this option until known issues are ironed out - https://github.com/sublimelsp/LSP-vue/issues/130.
-		// When `true`, the Vue Language Server handles the CSS/HTML sections and partially the SCRIPT section but for
-		// the JS/TS-specific functionality it relies on the `LSP-typescript` server with `@vue/typescript-plugin` TS
-		// plugin enabled. When set to `false`, the Vue Language Server handles everything itself.
-		"vue.hybridMode": false,
-	},
 	"settings": {
 		// Preferred tag name case.
 		// possible values:
@@ -269,4 +262,11 @@
 		"NODE_ENV": "production",
 	},
 	"selector": "text.html.vue",
+	// Preferred for handling requests in Vue files over LSP-typescript.
+	"priority_selector": "text.html.vue source.js, text.html.vue source.ts",
+	"semantic_tokens": {
+		"component": "entity.name.type.other.vue",
+		"markdown": "entity.name.type.other.vue",
+		"html": "entity.name.type.other.vue",
+	}
 }
