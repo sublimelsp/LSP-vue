@@ -115,7 +115,7 @@ class LspVuePlugin(NpmClientHandler):
         filepath = command_params['file'] if isinstance(command_params, dict) else command_params[0]
         session = manager.get_session('LSP-typescript', filepath)
         if not session:
-            print('[LSP-vue] LSP-typescript not found')
+            print('[LSP-vue] LSP-typescript not found or has not loaded the Vue Plugin. Try restarting ST.')
             self._on_execute_command_response(seq, {'body': None})
             return
         execute_command_params: ExecuteCommandParams = {
