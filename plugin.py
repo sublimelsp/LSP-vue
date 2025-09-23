@@ -8,21 +8,22 @@ from LSP.plugin.core.protocol import Error, ExecuteCommandParams, LSPAny, Locati
 from LSP.plugin.locationpicker import LocationPicker
 from lsp_utils import notification_handler
 from lsp_utils import NpmClientHandler
-import os
+from pathlib import Path
 import sublime
 
 PACKAGE_NAME = __package__
 SERVER_DIRECTORY = 'server'
-SERVER_NODE_MODULES = os.path.join(SERVER_DIRECTORY, 'node_modules')
-SERVER_BINARY_PATH =  os.path.join(SERVER_NODE_MODULES, '@vue', 'language-server', 'bin', 'vue-language-server.js')
+SERVER_NODE_MODULES = Path(SERVER_DIRECTORY) / 'node_modules'
+SERVER_BINARY_PATH =  SERVER_NODE_MODULES / '@vue' / 'language-server' / 'bin' / 'vue-language-server.js'
 
-TypescriptTsserverCommandParams = TypedDict('TypescriptTsserverCommandParams', {
-    'file': Required[str],
-}, total=False)
+
+class TypescriptTsserverCommandParams(TypedDict):
+    file: Required[str]
+
+class ExecuteCommandResponse(TypedDict):
+    body: LSPAny
+
 TsserverRequestParams = Tuple[Tuple[int, str, Union[TypescriptTsserverCommandParams, List[str]]]]
-ExecuteCommandResponse = TypedDict('ExecuteCommandResponse', {
-    'body': LSPAny
-})
 
 
 def plugin_loaded():
@@ -52,25 +53,25 @@ class LspVuePlugin(NpmClientHandler):
     ) -> Optional[str]:
         if configuration.init_options.get('typescript.tsdk'):
             return None  # don't find the `typescript.tsdk` if it was set explicitly in LSP-volar.sublime-settings
-        typescript_lib_path = cls.find_typescript_lib_path(workspace_folders[0].path)
+        typescript_lib_path = cls._find_typescript_lib_path(workspace_folders[0].path)
         if not typescript_lib_path:
             return 'Could not resolve location of TypeScript package'
-        configuration.init_options.set('typescript.tsdk', typescript_lib_path)
+        configuration.init_options.set('typescript.tsdk', str(typescript_lib_path))
         return None
 
     @classmethod
-    def find_typescript_lib_path(cls, workspace_folder: str) -> Optional[str]:
+    def _find_typescript_lib_path(cls, workspace_folder: str) -> Optional[Path]:
         module_paths = [
-            'node_modules/typescript/lib/tsserverlibrary.js',
-            '.vscode/pnpify/typescript/lib/tsserverlibrary.js',
-            '.yarn/sdks/typescript/lib/tsserverlibrary.js'
+            Path('node_modules') / 'typescript' / 'lib' / 'tsserverlibrary.js',
+            Path('.vscode') / 'pnpify' / 'typescript' / 'lib' / 'tsserverlibrary.js',
+            Path('.yarn') / 'sdks' / 'typescript' / 'lib' / 'tsserverlibrary.js',
         ]
         for module_path in module_paths:
-            candidate = os.path.join(workspace_folder, module_path)
-            if os.path.isfile(candidate):
-                return os.path.dirname(candidate)
+            candidate = Path(workspace_folder) / module_path
+            if candidate.is_file():
+                return candidate.parent
         server_directory_path = cls._server_directory_path()
-        return os.path.join(server_directory_path, 'node_modules', 'typescript', 'lib')
+        return Path(server_directory_path) / 'node_modules' / 'typescript' / 'lib'
 
     def on_pre_server_command(self, command: Mapping[str, Any], done_callback: Callable[[], None]) -> bool:
         command_name = command['command']
