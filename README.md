@@ -17,6 +17,23 @@ This is a helper package that automatically installs and updates the [Vue Langua
 
 Open the configuration file using Command Palette with `Preferences: LSP-vue Settings` command or opening it from the Sublime menu (`Preferences > Package Settings > LSP > Servers > LSP-vue`).
 
+### Semantic Tokens
+
+Server assigns a dedicated `entity.name.tag.vue` scope to component tags which allows one to customize their color. To customize, select `UI: Customize Color Scheme` from the _Command Palette_ and add a rule like (with your chosen color):
+
+```json
+{
+    // ...
+    "rules": [
+        // ...
+        {
+            "scope": "entity.name.tag.vue",
+            "foreground": "color(var(blue))",
+        },
+    ],
+}
+```
+
 ### Inlay hints
 
 Inlay hints are short textual annotations that show parameter names, type hints.
