@@ -270,8 +270,8 @@
 		"typeDefinitionProvider": true,
 	},
 	"semantic_tokens": {
-		"component": "entity.name.type.other.vue",
-		"markdown": "entity.name.type.other.vue",
-		"html": "entity.name.type.other.vue",
+		"component": "entity.name.tag.vue",
+		"markdown": "entity.name.tag.vue",
+		"html": "entity.name.tag.vue",
 	}
 }
