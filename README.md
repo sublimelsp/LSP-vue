@@ -10,8 +10,15 @@ This is a helper package that automatically installs and updates the [Vue Langua
 
 ### Installation
 
-* Install [LSP](https://packagecontrol.io/packages/LSP), [Vue Syntax Highlight](https://packagecontrol.io/packages/Vue%20Syntax%20Highlight) and [LSP-vue](https://packagecontrol.io/packages/LSP-vue) from Package Control.
+* Install from _Package Control_:
+ - [LSP](https://packagecontrol.io/packages/LSP)
+ - [Vue Syntax Highlight](https://packagecontrol.io/packages/Vue%20Syntax%20Highlight)
+ - [LSP-vue](https://packagecontrol.io/packages/LSP-vue).
+ - [LSP-typescript](https://packagecontrol.io/packages/LSP-typescript).
 * Restart Sublime.
+
+> [!NOTE]
+> Make sure to install `LSP-typescript` also. It's a required dependency.
 
 ### Configuration
 
