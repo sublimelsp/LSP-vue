@@ -10,22 +10,6 @@
           "definitions": {
             "PluginConfig": {
               "properties": {
-                "initializationOptions": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "typescript.tsdk": {
-                      "type": "string",
-                      "description": "Path to tsserver's lib directory."
-                    },
-                    "vue.hybridMode": {
-                      "type": [
-                        "boolean",
-                      ],
-                      "default": false,
-                      "markdownDescription": "DON'T use this option until known issues are ironed out - https://github.com/sublimelsp/LSP-vue/issues/130.\n\nWhen `true`, the Vue Language Server handles the CSS/HTML sections and partially the SCRIPT section but for the JS/TS-specific functionality it relies on the `LSP-typescript` server with `@vue/typescript-plugin` TS plugin enabled. When set to `false`, the Vue Language Server handles everything itself."
-                    }
-                  },
-                },
                 "settings": {
                   "additionalProperties": false,
                   "properties": {
