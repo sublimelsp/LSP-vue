@@ -547,93 +547,149 @@
                       "description": "Show references to MDN in hover.",
                       "type": "boolean"
                     },
-                    "vue.complete.casing.tags": {
-                      "type": "string",
-                      "enum": [
-                        "autoKebab",
-                        "autoPascal",
-                        "kebab",
-                        "pascal"
-                      ],
-                      "enumDescriptions": [
-                        "Auto Detect from Content (Fallback to <kebab-case> if detect failed)",
-                        "Auto Detect from Content  (Fallback to <PascalCase> if detect failed)",
-                        "<kebab-case>",
-                        "<PascalCase>"
-                      ],
-                      "default": "autoPascal",
-                      "description": "Preferred tag name case."
-                    },
-                    "vue.complete.casing.props": {
-                      "type": "string",
-                      "enum": [
-                        "autoKebab",
-                        "autoCamel",
-                        "kebab",
-                        "camel"
-                      ],
-                      "enumDescriptions": [
-                        "Auto Detect from Content (Fallback to :kebab-case=\"...\" if detect failed)",
-                        "Auto Detect from Content (Fallback to :camelCase=\"...\" if detect failed)",
-                        ":kebab-case=\"...\"",
-                        ":camelCase=\"...\""
-                      ],
-                      "default": "autoKebab",
-                      "description": "Preferred attr name case."
-                    },
-                    "vue.complete.defineAssignment": {
-                      "type": "boolean",
-                      "default": true,
-                      "markdownDescription": "Auto add `const props = ` before `defineProps` when selecting the completion item `props`, `emit` and `slots`."
-                    },
-                    "vue.features.autoInsert.dotValue": {
-                      "type": "boolean",
-                      "default": false,
-                      "description": "Auto-complete Ref value with `.value`."
-                    },
-                    // Relies on custom "volar/client/autoInsert" request.
                     // "vue.autoInsert.bracketSpacing": {
-                    //   "type": "boolean",
                     //   "default": true,
-                    //   "description": "Auto add space between double curly brackets: {{|}} -> {{ | }}"
+                    //   "markdownDescription": "Auto add space between double curly brackets: `{{|}}` -> `{{ | }}`",
+                    //   "type": "boolean"
                     // },
-                    "vue.inlayHints.destructuredProps": {
-                      "type": "boolean",
+                    // "vue.autoInsert.dotValue": {
+                    //   "default": false,
+                    //   "markdownDescription": "Auto-complete Ref value with `.value`.",
+                    //   "type": "boolean"
+                    // },
+                    // "vue.codeActions.askNewComponentName": {
+                    //   "default": true,
+                    //   "markdownDescription": "Ask for new component name when extract component.",
+                    //   "type": "boolean"
+                    // },
+                    // "vue.editor.focusMode": {
+                    //   "default": true,
+                    //   "markdownDescription": "Sponsor this extension to unlock premium features. [Learn more](https://youtu.be/RcPcO4_Ct_U)",
+                    //   "type": "boolean"
+                    // },
+                    // "vue.editor.reactivityVisualization": {
+                    //   "default": true,
+                    //   "markdownDescription": "Sponsor this extension to unlock premium features. [Learn more](https://youtu.be/RcPcO4_Ct_U)",
+                    //   "type": "boolean"
+                    // },
+                    // "vue.editor.templateInterpolationDecorators": {
+                    //   "default": true,
+                    //   "markdownDescription": "Sponsor this extension to unlock premium features. [Learn more](https://youtu.be/RcPcO4_Ct_U)",
+                    //   "type": "boolean"
+                    // },
+                    "vue.format.script.initialIndent": {
                       "default": false,
-                      "markdownDescription": "Show inlay hints for destructured props:\n\n```ts\nwatch(() => /* props. */foo, () => { ... });\n```"
-                    },
-                    "vue.inlayHints.missingProps": {
-                      "type": "boolean",
-                      "default": false,
-                      "markdownDescription": "Show inlay hints for missing required props:\n\n```html\n<Comp />\n<!-- ^ foo! -->\n```"
-                    },
-                    "vue.inlayHints.inlineHandlerLeading": {
-                      "type": "boolean",
-                      "default": false,
-                      "markdownDescription": "Show inlay hints for event argument in inline handlers:\n\n```html\n<Comp @foo=\"/* $event => */console.log($event)\" />\n```"
-                    },
-                    "vue.inlayHints.optionsWrapper": {
-                      "type": "boolean",
-                      "default": false,
-                      "markdownDescription": "Show inlay hints for component options wrapper for type support:\n\n```vue\n<script lang=\"ts\">\nexport default /* (await import('vue')).defineComponent( */{}/* ) */;\n</script>\n```"
-                    },
-                    "vue.inlayHints.vBindShorthand": {
-                      "type": "boolean",
-                      "default": false,
-                      "markdownDescription": "Show inlay hints for v-bind shorthand:\n\n```html\n<Comp :foo />\n     <!-- ^ =\"foo\" -->\n```"
-                    },
-                    "vue.format.template.initialIndent": {
-                      "type": "boolean",
-                      "default": true
+                      "markdownDescription": "Initial indent for `<script>` block.",
+                      "type": "boolean"
                     },
                     "vue.format.style.initialIndent": {
-                      "type": "boolean",
-                      "default": false
+                      "default": false,
+                      "markdownDescription": "Initial indent for `<style>` block.",
+                      "type": "boolean"
                     },
-                    "vue.format.script.initialIndent": {
-                      "type": "boolean",
-                      "default": false
+                    "vue.format.template.initialIndent": {
+                      "default": true,
+                      "markdownDescription": "Initial indent for `<template>` block.",
+                      "type": "boolean"
                     },
+                    "vue.format.wrapAttributes": {
+                      "default": "auto",
+                      "enum": [
+                        "auto",
+                        "force",
+                        "force-aligned",
+                        "force-expand-multiline",
+                        "aligned-multiple",
+                        "preserve",
+                        "preserve-aligned"
+                      ],
+                      "markdownDescription": "Wrap attributes.",
+                      "type": "string"
+                    },
+                    "vue.inlayHints.destructuredProps": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for destructured props:\n\n```ts\nwatch(() => /* props. */foo, () => { ... });\n```",
+                      "type": "boolean"
+                    },
+                    "vue.inlayHints.inlineHandlerLeading": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for event argument in inline handlers:\n\n```html\n<Comp @foo=\"/* $event => */console.log($event)\" />\n```",
+                      "type": "boolean"
+                    },
+                    "vue.inlayHints.missingProps": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for missing required props:\n\n```html\n<Comp />\n<!-- ^ foo! -->\n```",
+                      "type": "boolean"
+                    },
+                    "vue.inlayHints.optionsWrapper": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for component options wrapper for type support:\n\n```vue\n<script lang=\"ts\">\nexport default /* (await import('vue')).defineComponent( */{}/* ) */;\n</script>\n```",
+                      "type": "boolean"
+                    },
+                    "vue.inlayHints.vBindShorthand": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for v-bind shorthand:\n\n```html\n<Comp :foo />\n     <!-- ^ =\"foo\" -->\n```",
+                      "type": "boolean"
+                    },
+                    // "vue.server.includeLanguages": {
+                    //   "default": [
+                    //     "vue"
+                    //   ],
+                    //   "items": {
+                    //     "type": "string"
+                    //   },
+                    //   "markdownDescription": "Configure the languages for which the extension should be activated.",
+                    //   "type": "array"
+                    // },
+                    "vue.suggest.componentNameCasing": {
+                      "default": "preferPascalCase",
+                      "enum": [
+                        "preferKebabCase",
+                        "preferPascalCase",
+                        "alwaysKebabCase",
+                        "alwaysPascalCase"
+                      ],
+                      "enumDescriptions": [
+                        "Prefer kebab-case (lowercase with hyphens, e.g. my-component)",
+                        "Prefer PascalCase (UpperCamelCase, e.g. MyComponent)",
+                        "Always kebab-case (enforce kebab-case, e.g. my-component)",
+                        "Always PascalCase (enforce PascalCase, e.g. MyComponent)"
+                      ],
+                      "markdownDescription": "Preferred component name case.",
+                      "type": "string"
+                    },
+                    "vue.suggest.defineAssignment": {
+                      "default": true,
+                      "markdownDescription": "Auto add `const props = ` before `defineProps` when selecting the completion item `props`. (also `emit` and `slots`)",
+                      "type": "boolean"
+                    },
+                    "vue.suggest.propNameCasing": {
+                      "default": "preferKebabCase",
+                      "enum": [
+                        "preferKebabCase",
+                        "preferCamelCase",
+                        "alwaysKebabCase",
+                        "alwaysCamelCase"
+                      ],
+                      "enumDescriptions": [
+                        "Prefer kebab-case (lowercase with hyphens, e.g. my-prop)",
+                        "Prefer camelCase (lowerCamelCase, e.g. myProp)",
+                        "Always kebab-case (enforce kebab-case, e.g. my-prop)",
+                        "Always camelCase (enforce camelCase, e.g. myProp)"
+                      ],
+                      "markdownDescription": "Preferred attr name case.",
+                      "type": "string"
+                    },
+                    // "vue.trace.server": {
+                    //   "default": "off",
+                    //   "enum": [
+                    //     "off",
+                    //     "messages",
+                    //     "verbose"
+                    //   ],
+                    //   "markdownDescription": "Traces the communication between VS Code and the language server.",
+                    //   "type": "string"
+                    // },
                     "typescript.preferences.autoImportFileExcludePatterns": {
                       "items": {
                         "type": "string"
