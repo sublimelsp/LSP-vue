@@ -26,7 +26,7 @@ Open the configuration file using Command Palette with `Preferences: LSP-vue Set
 
 ### Semantic Tokens
 
-Server assigns a dedicated `entity.name.tag.vue` scope to component tags which allows one to customize their color. To customize, select `UI: Customize Color Scheme` from the _Command Palette_ and add a rule like (with your chosen color):
+Server assigns a dedicated `entity.name.tag.vue` scope to component tags which allows one to customize their color. To customize, select `UI: Customize Color Scheme` from the _Command Palette_ and add a rule like the following (with your chosen color):
 
 ```jsonc
 {
