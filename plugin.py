@@ -1,7 +1,9 @@
 from __future__ import annotations
+from LSP.plugin import ClientConfig
 from LSP.plugin import Notification
+from LSP.plugin import WorkspaceFolder
 from LSP.plugin.core.types import cast
-from LSP.plugin.core.typing import Any, Callable, List, Mapping, Required, Tuple, TypedDict, Union
+from LSP.plugin.core.typing import Any, Callable, List, Optional, Mapping, Required, Tuple, TypedDict, Union
 from LSP.plugin.core.protocol import Error, ExecuteCommandParams, LSPAny, Location
 from LSP.plugin.locationpicker import LocationPicker
 from lsp_utils import notification_handler
@@ -40,6 +42,36 @@ class LspVuePlugin(NpmClientHandler):
     @classmethod
     def required_node_version(cls) -> str:
         return '>=18'
+
+    @classmethod
+    def is_allowed_to_start(
+        cls,
+        window: sublime.Window,
+        initiating_view: sublime.View,
+        workspace_folders: List[WorkspaceFolder],
+        configuration: ClientConfig
+    ) -> Optional[str]:
+        if configuration.init_options.get('typescript.tsdk'):
+            return None  # don't find the `typescript.tsdk` if it was set explicitly in LSP-volar.sublime-settings
+        typescript_lib_path = cls._find_typescript_lib_path(workspace_folders[0].path)
+        if not typescript_lib_path:
+            return 'Could not resolve location of TypeScript package'
+        configuration.init_options.set('typescript.tsdk', str(typescript_lib_path))
+        return None
+
+    @classmethod
+    def _find_typescript_lib_path(cls, workspace_folder: str) -> Optional[Path]:
+        module_paths = [
+            Path('node_modules') / 'typescript' / 'lib' / 'tsserverlibrary.js',
+            Path('.vscode') / 'pnpify' / 'typescript' / 'lib' / 'tsserverlibrary.js',
+            Path('.yarn') / 'sdks' / 'typescript' / 'lib' / 'tsserverlibrary.js',
+        ]
+        for module_path in module_paths:
+            candidate = Path(workspace_folder) / module_path
+            if candidate.is_file():
+                return candidate.parent
+        server_directory_path = cls._server_directory_path()
+        return Path(server_directory_path) / 'node_modules' / 'typescript' / 'lib'
 
     def on_pre_server_command(self, command: Mapping[str, Any], done_callback: Callable[[], None]) -> bool:
         command_name = command['command']
