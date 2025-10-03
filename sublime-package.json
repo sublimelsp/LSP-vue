@@ -10,22 +10,6 @@
           "definitions": {
             "PluginConfig": {
               "properties": {
-                "initializationOptions": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "typescript.tsdk": {
-                      "type": "string",
-                      "description": "Path to tsserver's lib directory."
-                    },
-                    "vue.hybridMode": {
-                      "type": [
-                        "boolean",
-                      ],
-                      "default": false,
-                      "markdownDescription": "DON'T use this option until known issues are ironed out - https://github.com/sublimelsp/LSP-vue/issues/130.\n\nWhen `true`, the Vue Language Server handles the CSS/HTML sections and partially the SCRIPT section but for the JS/TS-specific functionality it relies on the `LSP-typescript` server with `@vue/typescript-plugin` TS plugin enabled. When set to `false`, the Vue Language Server handles everything itself."
-                    }
-                  },
-                },
                 "settings": {
                   "additionalProperties": false,
                   "properties": {
@@ -563,93 +547,149 @@
                       "description": "Show references to MDN in hover.",
                       "type": "boolean"
                     },
-                    "vue.complete.casing.tags": {
-                      "type": "string",
-                      "enum": [
-                        "autoKebab",
-                        "autoPascal",
-                        "kebab",
-                        "pascal"
-                      ],
-                      "enumDescriptions": [
-                        "Auto Detect from Content (Fallback to <kebab-case> if detect failed)",
-                        "Auto Detect from Content  (Fallback to <PascalCase> if detect failed)",
-                        "<kebab-case>",
-                        "<PascalCase>"
-                      ],
-                      "default": "autoPascal",
-                      "description": "Preferred tag name case."
-                    },
-                    "vue.complete.casing.props": {
-                      "type": "string",
-                      "enum": [
-                        "autoKebab",
-                        "autoCamel",
-                        "kebab",
-                        "camel"
-                      ],
-                      "enumDescriptions": [
-                        "Auto Detect from Content (Fallback to :kebab-case=\"...\" if detect failed)",
-                        "Auto Detect from Content (Fallback to :camelCase=\"...\" if detect failed)",
-                        ":kebab-case=\"...\"",
-                        ":camelCase=\"...\""
-                      ],
-                      "default": "autoKebab",
-                      "description": "Preferred attr name case."
-                    },
-                    "vue.complete.defineAssignment": {
-                      "type": "boolean",
-                      "default": true,
-                      "markdownDescription": "Auto add `const props = ` before `defineProps` when selecting the completion item `props`, `emit` and `slots`."
-                    },
-                    "vue.features.autoInsert.dotValue": {
-                      "type": "boolean",
-                      "default": false,
-                      "description": "Auto-complete Ref value with `.value`."
-                    },
-                    // Relies on custom "volar/client/autoInsert" request.
                     // "vue.autoInsert.bracketSpacing": {
-                    //   "type": "boolean",
                     //   "default": true,
-                    //   "description": "Auto add space between double curly brackets: {{|}} -> {{ | }}"
+                    //   "markdownDescription": "Auto add space between double curly brackets: `{{|}}` -> `{{ | }}`",
+                    //   "type": "boolean"
                     // },
-                    "vue.inlayHints.destructuredProps": {
-                      "type": "boolean",
+                    // "vue.autoInsert.dotValue": {
+                    //   "default": false,
+                    //   "markdownDescription": "Auto-complete Ref value with `.value`.",
+                    //   "type": "boolean"
+                    // },
+                    // "vue.codeActions.askNewComponentName": {
+                    //   "default": true,
+                    //   "markdownDescription": "Ask for new component name when extract component.",
+                    //   "type": "boolean"
+                    // },
+                    // "vue.editor.focusMode": {
+                    //   "default": true,
+                    //   "markdownDescription": "Sponsor this extension to unlock premium features. [Learn more](https://youtu.be/RcPcO4_Ct_U)",
+                    //   "type": "boolean"
+                    // },
+                    // "vue.editor.reactivityVisualization": {
+                    //   "default": true,
+                    //   "markdownDescription": "Sponsor this extension to unlock premium features. [Learn more](https://youtu.be/RcPcO4_Ct_U)",
+                    //   "type": "boolean"
+                    // },
+                    // "vue.editor.templateInterpolationDecorators": {
+                    //   "default": true,
+                    //   "markdownDescription": "Sponsor this extension to unlock premium features. [Learn more](https://youtu.be/RcPcO4_Ct_U)",
+                    //   "type": "boolean"
+                    // },
+                    "vue.format.script.initialIndent": {
                       "default": false,
-                      "markdownDescription": "Show inlay hints for destructured props:\n\n```ts\nwatch(() => /* props. */foo, () => { ... });\n```"
-                    },
-                    "vue.inlayHints.missingProps": {
-                      "type": "boolean",
-                      "default": false,
-                      "markdownDescription": "Show inlay hints for missing required props:\n\n```html\n<Comp />\n<!-- ^ foo! -->\n```"
-                    },
-                    "vue.inlayHints.inlineHandlerLeading": {
-                      "type": "boolean",
-                      "default": false,
-                      "markdownDescription": "Show inlay hints for event argument in inline handlers:\n\n```html\n<Comp @foo=\"/* $event => */console.log($event)\" />\n```"
-                    },
-                    "vue.inlayHints.optionsWrapper": {
-                      "type": "boolean",
-                      "default": false,
-                      "markdownDescription": "Show inlay hints for component options wrapper for type support:\n\n```vue\n<script lang=\"ts\">\nexport default /* (await import('vue')).defineComponent( */{}/* ) */;\n</script>\n```"
-                    },
-                    "vue.inlayHints.vBindShorthand": {
-                      "type": "boolean",
-                      "default": false,
-                      "markdownDescription": "Show inlay hints for v-bind shorthand:\n\n```html\n<Comp :foo />\n     <!-- ^ =\"foo\" -->\n```"
-                    },
-                    "vue.format.template.initialIndent": {
-                      "type": "boolean",
-                      "default": true
+                      "markdownDescription": "Initial indent for `<script>` block.",
+                      "type": "boolean"
                     },
                     "vue.format.style.initialIndent": {
-                      "type": "boolean",
-                      "default": false
+                      "default": false,
+                      "markdownDescription": "Initial indent for `<style>` block.",
+                      "type": "boolean"
                     },
-                    "vue.format.script.initialIndent": {
-                      "type": "boolean",
-                      "default": false
+                    "vue.format.template.initialIndent": {
+                      "default": true,
+                      "markdownDescription": "Initial indent for `<template>` block.",
+                      "type": "boolean"
                     },
+                    "vue.format.wrapAttributes": {
+                      "default": "auto",
+                      "enum": [
+                        "auto",
+                        "force",
+                        "force-aligned",
+                        "force-expand-multiline",
+                        "aligned-multiple",
+                        "preserve",
+                        "preserve-aligned"
+                      ],
+                      "markdownDescription": "Wrap attributes.",
+                      "type": "string"
+                    },
+                    "vue.inlayHints.destructuredProps": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for destructured props:\n\n```ts\nwatch(() => /* props. */foo, () => { ... });\n```",
+                      "type": "boolean"
+                    },
+                    "vue.inlayHints.inlineHandlerLeading": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for event argument in inline handlers:\n\n```html\n<Comp @foo=\"/* $event => */console.log($event)\" />\n```",
+                      "type": "boolean"
+                    },
+                    "vue.inlayHints.missingProps": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for missing required props:\n\n```html\n<Comp />\n<!-- ^ foo! -->\n```",
+                      "type": "boolean"
+                    },
+                    "vue.inlayHints.optionsWrapper": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for component options wrapper for type support:\n\n```vue\n<script lang=\"ts\">\nexport default /* (await import('vue')).defineComponent( */{}/* ) */;\n</script>\n```",
+                      "type": "boolean"
+                    },
+                    "vue.inlayHints.vBindShorthand": {
+                      "default": false,
+                      "markdownDescription": "Show inlay hints for v-bind shorthand:\n\n```html\n<Comp :foo />\n     <!-- ^ =\"foo\" -->\n```",
+                      "type": "boolean"
+                    },
+                    // "vue.server.includeLanguages": {
+                    //   "default": [
+                    //     "vue"
+                    //   ],
+                    //   "items": {
+                    //     "type": "string"
+                    //   },
+                    //   "markdownDescription": "Configure the languages for which the extension should be activated.",
+                    //   "type": "array"
+                    // },
+                    "vue.suggest.componentNameCasing": {
+                      "default": "preferPascalCase",
+                      "enum": [
+                        "preferKebabCase",
+                        "preferPascalCase",
+                        "alwaysKebabCase",
+                        "alwaysPascalCase"
+                      ],
+                      "enumDescriptions": [
+                        "Prefer kebab-case (lowercase with hyphens, e.g. my-component)",
+                        "Prefer PascalCase (UpperCamelCase, e.g. MyComponent)",
+                        "Always kebab-case (enforce kebab-case, e.g. my-component)",
+                        "Always PascalCase (enforce PascalCase, e.g. MyComponent)"
+                      ],
+                      "markdownDescription": "Preferred component name case.",
+                      "type": "string"
+                    },
+                    "vue.suggest.defineAssignment": {
+                      "default": true,
+                      "markdownDescription": "Auto add `const props = ` before `defineProps` when selecting the completion item `props`. (also `emit` and `slots`)",
+                      "type": "boolean"
+                    },
+                    "vue.suggest.propNameCasing": {
+                      "default": "preferKebabCase",
+                      "enum": [
+                        "preferKebabCase",
+                        "preferCamelCase",
+                        "alwaysKebabCase",
+                        "alwaysCamelCase"
+                      ],
+                      "enumDescriptions": [
+                        "Prefer kebab-case (lowercase with hyphens, e.g. my-prop)",
+                        "Prefer camelCase (lowerCamelCase, e.g. myProp)",
+                        "Always kebab-case (enforce kebab-case, e.g. my-prop)",
+                        "Always camelCase (enforce camelCase, e.g. myProp)"
+                      ],
+                      "markdownDescription": "Preferred attr name case.",
+                      "type": "string"
+                    },
+                    // "vue.trace.server": {
+                    //   "default": "off",
+                    //   "enum": [
+                    //     "off",
+                    //     "messages",
+                    //     "verbose"
+                    //   ],
+                    //   "markdownDescription": "Traces the communication between VS Code and the language server.",
+                    //   "type": "string"
+                    // },
                     "typescript.preferences.autoImportFileExcludePatterns": {
                       "items": {
                         "type": "string"
@@ -1024,9 +1064,19 @@
                     2.7,
                     3,
                     3.3,
-                    3.5
+                    3.5,
+                    3.6,
+                    99
                   ],
                   "markdownDescription": "Target version of Vue."
+                },
+                "lib": {
+                  "default": "vue",
+                  "markdownDescription": "Specify module name for import regular types."
+                },
+                "globalTypesPath": {
+                  "type": "string",
+                  "markdownDescription": "Path to the global types file. Manual configuration is required when `node_modules` does not exist in the environment."
                 },
                 "extensions": {
                   "type": "array",
@@ -1049,10 +1099,6 @@
                   ],
                   "markdownDescription": "Valid file extensions that should be considered as regular PetiteVue SFC."
                 },
-                "lib": {
-                  "default": "vue",
-                  "markdownDescription": "Specify module name for import regular types."
-                },
                 "jsxSlots": {
                   "type": "boolean",
                   "default": false,
@@ -1063,15 +1109,98 @@
                   "default": false,
                   "markdownDescription": "Strict props, component type-checking in templates."
                 },
+                "strictVModel": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Strict type constraints of `v-model`. If not set, uses the 'strictTemplates' value."
+                },
+                "strictCssModules": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Strict type checking of CSS modules."
+                },
+                "checkUnknownProps": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Check unknown props. If not set, uses the 'strictTemplates' value."
+                },
+                "checkUnknownEvents": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Check unknown events. If not set, uses the 'strictTemplates' value."
+                },
+                "checkUnknownDirectives": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Check unknown directives. If not set, uses the 'strictTemplates' value."
+                },
+                "checkUnknownComponents": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Check unknown components. If not set, uses the 'strictTemplates' value."
+                },
+                "inferComponentDollarEl": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Infer `$el` type on the component instance."
+                },
+                "inferComponentDollarRefs": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Infer `$refs` type on the component instance."
+                },
+                "inferTemplateDollarAttrs": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Infer `$attrs` type in the template and the return type of `useAttrs`."
+                },
+                "inferTemplateDollarEl": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Infer `$el` type in the template."
+                },
+                "inferTemplateDollarRefs": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Infer `$refs` type in the template."
+                },
+                "inferTemplateDollarSlots": {
+                  "type": "boolean",
+                  "default": false,
+                  "markdownDescription": "Infer `$slots` type in the template and the return type of `useSlots`."
+                },
                 "skipTemplateCodegen": {
                   "type": "boolean",
                   "default": false,
                   "markdownDescription": "https://github.com/vuejs/language-tools/issues/577"
                 },
-                "fallthroughAttributes": {
+                "resolveStyleImports": {
                   "type": "boolean",
                   "default": false,
-                  "markdownDescription": "Enable to support typed fallthrough attributes. Please note that enabling may significantly slow down type checking."
+                  "markdownDescription": "Enable to generate type imports for external CSS files by `<style src=\"...\">` or `@import \"...\"`.\n\nSee: https://github.com/vuejs/language-tools/pull/5136"
+                },
+                "resolveStyleClassNames": {
+                  "type": [
+                    "boolean",
+                    "string"
+                  ],
+                  "default": "scoped",
+                  "enum": [
+                    true,
+                    false,
+                    "scoped"
+                  ],
+                  "markdownDescription": "Enable to apply completions and document links for CSS class names used in templates."
+                },
+                "fallthroughComponentNames": {
+                  "type": "array",
+                  "default": [
+                    "Transition",
+                    "KeepAlive",
+                    "Teleport",
+                    "Suspense"
+                  ],
+                  "markdownDescription": "Component names that will be transparent when collecting single root child nodes and fallthrough attributes."
                 },
                 "dataAttributes": {
                   "type": "array",
@@ -1085,18 +1214,13 @@
                   ],
                   "markdownDescription": "A glob matcher array that should always be recognizing as HTML Attributes rather than Component props. Attribute name will never convert to camelize case."
                 },
-                "plugins": {
-                  "type": "array",
-                  "default": [],
-                  "markdownDescription": "Plugins to be used in the SFC compiler."
-                },
                 "optionsWrapper": {
                   "type": "array",
                   "default": [
                     "(await import('vue')).defineComponent(",
                     ")"
                   ],
-                  "markdownDescription": "How to wrap option of `export default { ... }`? Default: `[\"(await import('vue')).default.extend(\", \")\"]` for target < 2.7, `[\"(await import('vue')).defineComponent(\", \")\"]` for target >= 2.7."
+                  "markdownDescription": "How to wrap option of `export default { ... }`. Default: `[\"(await import('vue')).defineComponent(\", \")\"]`."
                 },
                 "macros": {
                   "type": "object",
@@ -1104,31 +1228,48 @@
                     "defineProps": [
                       "defineProps"
                     ],
-                    "defineSlots": [
-                      "defineSlots"
+                    "defineModel": [
+                      "defineModel"
                     ],
                     "defineEmits": [
                       "defineEmits"
                     ],
+                    "defineSlots": [
+                      "defineSlots"
+                    ],
                     "defineExpose": [
                       "defineExpose"
                     ],
+                    "defineOptions": [
+                      "defineOptions"
+                    ],
                     "withDefaults": [
                       "withDefaults"
-                    ],
-                    "templateRef": [
-                      "templateRef",
-                      "useTemplateRef"
                     ]
                   }
                 },
-                "experimentalResolveStyleCssClasses": {
-                  "enum": [
-                    "scoped",
-                    "always",
-                    "never"
-                  ],
-                  "markdownDescription": "https://github.com/vuejs/language-tools/issues/1038, https://github.com/vuejs/language-tools/issues/1121"
+                "composables": {
+                  "type": "object",
+                  "default": {
+                    "useAttrs": [
+                      "useAttrs"
+                    ],
+                    "useCssModule": [
+                      "useCssModule"
+                    ],
+                    "useSlots": [
+                      "useSlots"
+                    ],
+                    "useTemplateRef": [
+                      "useTemplateRef",
+                      "templateRef"
+                    ]
+                  }
+                },
+                "plugins": {
+                  "type": "array",
+                  "default": [],
+                  "markdownDescription": "Plugins to be used in the SFC compiler."
                 },
                 "experimentalModelPropName": {
                   "type": "object",
@@ -1145,13 +1286,6 @@
                     }
                   },
                   "markdownDescription": "https://github.com/vuejs/language-tools/issues/1969"
-                },
-                "experimentalDefinePropProposal": {
-                  "enum": [
-                    "kevinEdition",
-                    "johnsonEdition",
-                    false
-                  ]
                 }
               }
             }

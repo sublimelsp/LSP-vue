@@ -1,49 +1,53 @@
 {
 	"settings": {
-		// Preferred tag name case.
-		// possible values:
-		// - "autoKebab": Auto Detect from Content (Fallback to <kebab-case> if detect failed)
-		// - "autoPascal": Auto Detect from Content  (Fallback to <PascalCase> if detect failed)
-		// - "kebab" - <kebab-case>
-		// - "pascal" - <PascalCase>
-		"vue.complete.casing.tags": "autoPascal",
-		// Preferred attr name case.
-		// possible values:
-		//  - "autoKebab": Auto Detect from Content (Fallback to :kebab-case="..." if detect failed)
-		//  - "autoPascal": Auto Detect from Content (Fallback to :camelCase="..." if detect failed)
-		//  - "kebab": :kebab-case="..."
-		//  - "pascal": :camelCase="..."
-		"vue.complete.casing.props": "autoKebab",
-		// Auto add `const props = ` before `defineProps` when selecting the completion item `props`, `emit` and `slots`.
-		"vue.complete.defineAssignment": true,
+		// Initial indent for `<script>` block.
+		"vue.format.script.initialIndent": false,
+		// Initial indent for `<style>` block.
+		"vue.format.style.initialIndent": false,
+		// Initial indent for `<template>` block.
+		"vue.format.template.initialIndent": true,
+		// Wrap attributes.
+		// possible values: "auto", "force", "force-aligned", "force-expand-multiline", "aligned-multiple", "preserve", "preserve-aligned"
+		"vue.format.wrapAttributes": "auto",
 		// Show inlay hints for destructured props:
-		//
+		// ```ts
 		// watch(() => /* props. */foo, () => { ... });
+		// ```
 		"vue.inlayHints.destructuredProps": false,
-		// Show inlay hints for missing required props.
-		//
+		// Show inlay hints for event argument in inline handlers:
+		// ```html
+		// <Comp @foo="/* $event => */console.log($event)" />
+		// ```
+		"vue.inlayHints.inlineHandlerLeading": false,
+		// Show inlay hints for missing required props:
+		// ```html
 		// <Comp />
 		// <!-- ^ foo! -->
+		// ```
 		"vue.inlayHints.missingProps": false,
-		// Show inlay hints for event argument in inline handlers.
-		//
-		// <Comp @foo="/* $event => */console.log($event)" />
-		"vue.inlayHints.inlineHandlerLeading": false,
-		// Show inlay hints for component options wrapper for type support.
-		//
+		// Show inlay hints for component options wrapper for type support:
+		// ```vue
 		// <script lang="ts">
 		// export default /* (await import('vue')).defineComponent( */{}/* ) */;
 		// </script>
+		// ```
 		"vue.inlayHints.optionsWrapper": false,
-		// Show inlay hints for v-bind shorthand.
-		//
+		// Show inlay hints for v-bind shorthand:
+		// ```html
 		// <Comp :foo />
-		//      <!-- ^ =\"foo\" -->
+		//      <!-- ^ ="foo" -->
+		// ```
 		"vue.inlayHints.vBindShorthand": false,
-		// Whether to have initial indent.
-		"vue.format.template.initialIndent": true,
-		"vue.format.style.initialIndent": false,
-		"vue.format.script.initialIndent": false,
+		// Preferred component name case.
+		// possible values: "preferKebabCase", "preferPascalCase", "alwaysKebabCase", "alwaysPascalCase"
+		"vue.suggest.componentNameCasing": "preferPascalCase",
+		// Auto add `const props = ` before `defineProps` when selecting the completion item
+		// `props`. (also `emit` and `slots`)
+		"vue.suggest.defineAssignment": true,
+		// Preferred attr name case.
+		// possible values: "preferKebabCase", "preferCamelCase", "alwaysKebabCase", "alwaysCamelCase"
+		"vue.suggest.propNameCasing": "preferKebabCase",
+
 		// javascript inlay hint
 		"javascript.inlayHints.enumMemberValues.enabled": false,
 		"javascript.inlayHints.functionLikeReturnTypes.enabled": false,
