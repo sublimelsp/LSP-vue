@@ -267,7 +267,7 @@
 	},
 	"selector": "text.html.vue",
 	// Preferred for handling requests in Vue files over LSP-typescript.
-	"priority_selector": "text.html.vue source.js, text.html.vue source.ts",
+	"priority_selector": "text.html.vue, text.html.vue source.js, text.html.vue source.ts",
 	"disabled_capabilities": {
 		"definitionProvider": true,
 		"referencesProvider": true,
