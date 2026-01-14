@@ -38,6 +38,9 @@
 		//      <!-- ^ ="foo" -->
 		// ```
 		"vue.inlayHints.vBindShorthand": false,
+		// (Experimental) Enable rich hover for Vue components using type information
+		// (show props, events, slots, exposed in table format).
+		"vue.hover.rich": false,
 		// Preferred component name case.
 		// possible values: "preferKebabCase", "preferPascalCase", "alwaysKebabCase", "alwaysPascalCase"
 		"vue.suggest.componentNameCasing": "preferPascalCase",
