@@ -641,6 +641,11 @@
                     //   "markdownDescription": "Configure the languages for which the extension should be activated.",
                     //   "type": "array"
                     // },
+                    "vue.hover.rich": {
+                      "type": "boolean",
+                      "default": false,
+                      "markdownDescription": "(Experimental) Enable rich hover for Vue components using type information (show props, events, slots, exposed in table format)."
+                    },
                     "vue.suggest.componentNameCasing": {
                       "default": "preferPascalCase",
                       "enum": [
