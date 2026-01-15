@@ -1,5 +1,6 @@
 {
 	"settings": {
+		"vue.version": "auto",
 		// Initial indent for `<script>` block.
 		"vue.format.script.initialIndent": false,
 		// Initial indent for `<style>` block.

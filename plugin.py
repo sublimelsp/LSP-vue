@@ -1,5 +1,6 @@
 from __future__ import annotations
-from LSP.plugin import Notification
+import re
+from LSP.plugin import ClientConfig, Notification, WorkspaceFolder
 from LSP.plugin.core.types import cast
 from LSP.plugin.core.typing import Any, Callable, List, Mapping, Required, Tuple, TypedDict, Union
 from LSP.plugin.core.protocol import Error, ExecuteCommandParams, LSPAny, Location
@@ -12,7 +13,8 @@ import sublime
 PACKAGE_NAME = __package__
 SERVER_DIRECTORY = 'server'
 SERVER_NODE_MODULES = Path(SERVER_DIRECTORY) / 'node_modules'
-SERVER_BINARY_PATH =  SERVER_NODE_MODULES / '@vue' / 'language-server' / 'bin' / 'vue-language-server.js'
+SERVER_VUE_3_BINARY_PATH =  SERVER_NODE_MODULES / '@vue' / 'language-server' / 'bin' / 'vue-language-server.js'
+SERVER_VUE_2_BINARY_PATH =  SERVER_NODE_MODULES / '@vue2' / 'language-server' / 'bin' / 'vue-language-server.js'
 
 
 class TypescriptTsserverCommandParams(TypedDict):
@@ -32,11 +34,37 @@ def plugin_unloaded():
 class LspVuePlugin(NpmClientHandler):
     package_name = PACKAGE_NAME
     server_directory = SERVER_DIRECTORY
-    server_binary_path = SERVER_BINARY_PATH
+    server_binary_path = SERVER_VUE_3_BINARY_PATH
 
     @classmethod
     def required_node_version(cls) -> str:
         return '>=18'
+
+    @classmethod
+    def on_pre_start(cls, window: sublime.Window, initiating_view: sublime.View,
+                     workspace_folders: list[WorkspaceFolder], configuration: ClientConfig) -> str | None:
+        vue_version = configuration.settings.get('vue.version')
+        version_to_use = 3
+        if vue_version == 'vue3':
+            version_to_use = 3
+        elif vue_version == 'vue2':
+            version_to_use = 2
+        elif vue_version == 'auto' and workspace_folders:
+            first_folder = workspace_folders[0]
+            package_json = Path(first_folder.path) / 'package.json'
+            if not package_json.exists():
+                return
+            with package_json.open(encoding="utf-8") as file:
+                contents = file.read()
+                json = sublime.decode_value(contents)
+                vue_version_in_package_json = json.get('dependencies', {}).get('vue', '')
+                major_version = re.search('[0-9]+', json.get('dependencies', {}).get('vue', '')).group()
+                version_to_use = major_version
+            print(f'LSP-vue: Will use the language server that supports Vue version {version_to_use}')
+            # if major_version == 3: we don't need to do this
+            #     configuration.command[1] = str(Path(cls.package_storage()) / SERVER_VUE_3_BINARY_PATH)
+            if version_to_use == 2:
+                configuration.command[1] = str(Path(cls.package_storage()) / SERVER_VUE_2_BINARY_PATH)
 
     def on_pre_server_command(self, command: Mapping[str, Any], done_callback: Callable[[], None]) -> bool:
         command_name = command['command']

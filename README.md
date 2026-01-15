@@ -81,3 +81,38 @@ To enable inlay hints:
 ```
 
 > NOTE: Inlay hints require TypeScript 4.4+.
+
+
+### Vue 2 support
+
+LSP-vue will by auto-detect the version of VueJS based on Vue version in the root package.json, and based on that use the appropriate language server.
+If needed, the "vue.version" setting can be overriden in LSP-vue.settings:
+```
+// Settings in here override those in "LSP-vue/LSP-vue.sublime-settings"
+{
+    "settings": {
+        "vue.version": "vue2"
+    }
+}
+```
+Or in Sublime Text project settings:
+```
+{
+    "folders":
+    [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "LSP": {
+            "LSP-vue": {
+                "settings": {
+                    "vue.version": "vue2"
+                }
+            }
+        }
+    }
+}
+
+```

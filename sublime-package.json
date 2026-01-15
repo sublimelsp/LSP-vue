@@ -13,6 +13,15 @@
                 "settings": {
                   "additionalProperties": false,
                   "properties": {
+                    "vue.version": {
+                      "default": "auto",
+                      "enum": [
+                        "auto",
+                        "vue3",
+                        "vue2"
+                      ],
+                      "description": "Specify the version for Vue that the project users. By default it will auto-discover based on the project root package.json"
+                    },
                     "emmet.excludeLanguages": {
                       "default": [
                         "markdown"
