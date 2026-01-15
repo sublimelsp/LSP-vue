@@ -18,9 +18,6 @@ SERVER_BINARY_PATH =  SERVER_NODE_MODULES / '@vue' / 'language-server' / 'bin' /
 class TypescriptTsserverCommandParams(TypedDict):
     file: Required[str]
 
-class ExecuteCommandResponse(TypedDict):
-    body: LSPAny
-
 TsserverRequestParams = Tuple[Tuple[int, str, Union[TypescriptTsserverCommandParams, List[str]]]]
 
 
@@ -97,9 +94,9 @@ class LspVuePlugin(NpmClientHandler):
         session.execute_command(execute_command_params, progress=False) \
             .then(lambda result: self._on_execute_command_response(seq, result))
 
-    def _on_execute_command_response(self, seq: int, result: ExecuteCommandResponse | Error) -> None:
+    def _on_execute_command_response(self, seq: int, result: LSPAny | Error) -> None:
         session = self.weaksession()
         if not session:
             return
-        body = None if isinstance(result, Error) else result['body']
+        body = result['body'] if isinstance(result, dict) and 'body' in result else None
         session.send_notification(Notification('tsserver/response', [[seq, body]]))
