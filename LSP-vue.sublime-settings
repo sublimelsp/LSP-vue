@@ -1,9 +1,15 @@
 {
 	"settings": {
+		// Enable formatting for `<script>` block.
+		"vue.format.script.enabled": true,
 		// Initial indent for `<script>` block.
 		"vue.format.script.initialIndent": false,
+		// Enable formatting for `<style>` block.
+		"vue.format.style.enabled": true,
 		// Initial indent for `<style>` block.
 		"vue.format.style.initialIndent": false,
+		// Enable formatting for `<template>` block.
+		"vue.format.template.enabled": true,
 		// Initial indent for `<template>` block.
 		"vue.format.template.initialIndent": true,
 		// Wrap attributes.
@@ -50,7 +56,6 @@
 		// Preferred attr name case.
 		// possible values: "preferKebabCase", "preferCamelCase", "alwaysKebabCase", "alwaysCamelCase"
 		"vue.suggest.propNameCasing": "preferKebabCase",
-
 		// javascript inlay hint
 		"javascript.inlayHints.enumMemberValues.enabled": false,
 		"javascript.inlayHints.functionLikeReturnTypes.enabled": false,

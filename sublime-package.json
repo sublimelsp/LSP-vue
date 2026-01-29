@@ -577,15 +577,30 @@
                     //   "markdownDescription": "Sponsor this extension to unlock premium features. [Learn more](https://youtu.be/RcPcO4_Ct_U)",
                     //   "type": "boolean"
                     // },
+                    "vue.format.script.enabled": {
+                      "type": "boolean",
+                      "default": true,
+                      "markdownDescription": "Enable formatting for `<script>` block."
+                    },
                     "vue.format.script.initialIndent": {
                       "default": false,
                       "markdownDescription": "Initial indent for `<script>` block.",
                       "type": "boolean"
                     },
+                    "vue.format.style.enabled": {
+                      "type": "boolean",
+                      "default": true,
+                      "markdownDescription": "Enable formatting for `<style>` block."
+                    },
                     "vue.format.style.initialIndent": {
                       "default": false,
                       "markdownDescription": "Initial indent for `<style>` block.",
                       "type": "boolean"
+                    },
+                    "vue.format.template.enabled": {
+                      "type": "boolean",
+                      "default": true,
+                      "markdownDescription": "Enable formatting for `<template>` block."
                     },
                     "vue.format.template.initialIndent": {
                       "default": true,
