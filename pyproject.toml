@@ -1,0 +1,49 @@
+[tool.pyright]
+pythonVersion = "3.8"
+reportAny = "none"
+reportExplicitAny = "none"
+reportImplicitOverride = "none"
+reportIncompatibleMethodOverride = "none"
+reportMissingModuleSource = "none"
+reportUnannotatedClassAttribute = "none"
+reportUnknownArgumentType = "none"
+reportUnknownMemberType = "none"
+reportUnknownVariableType = "none"
+reportUnusedCallResult = "none"
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.format]
+quote-style = "preserve"
+indent-style = "space"
+# Respect magic trailing commas.
+skip-magic-trailing-comma = false
+# Automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.ruff.lint.isort]
+case-sensitive = false
+force-single-line = true
+from-first = true
+no-sections = true
+order-by-type = false
+required-imports = ["from __future__ import annotations"]
+
+[tool.tox]
+env_list = ["py3"]
+skipsdist = true
+
+[tool.tox.env_run_base]
+deps = [
+    "pyright==1.1.408",
+    "ruff==0.15.0",
+]
+commands = [
+    # mypy disabled for main code as it doesn't currently support cyclic definitions - https://github.com/python/mypy/issues/731
+    ["pyright"],
+    ["ruff", "check"],
+    ["ruff", "format", "--check"],
+]
+
