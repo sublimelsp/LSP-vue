@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from LSP.plugin import Notification
+from LSP.plugin import notification_handler
 from LSP.plugin.core.protocol import Error
 from LSP.plugin.locationpicker import LocationPicker
 from LSP.protocol import ExecuteCommandParams
 from LSP.protocol import Location
 from LSP.protocol import LSPAny
-from lsp_utils import notification_handler
 from lsp_utils import NpmClientHandler
 from pathlib import Path
 from typing import Any
