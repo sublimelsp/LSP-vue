@@ -1,29 +1,21 @@
 from __future__ import annotations
 
+from LSP.plugin import LspPlugin
 from LSP.plugin import Notification
 from LSP.plugin import notification_handler
+from LSP.plugin import OnPreStartContext
 from LSP.plugin.core.protocol import Error
-from LSP.plugin.locationpicker import LocationPicker
 from LSP.protocol import ExecuteCommandParams
-from LSP.protocol import Location
 from LSP.protocol import LSPAny
-from lsp_utils import NpmClientHandler
+from lsp_utils import NodeManager
 from pathlib import Path
-from typing import Any
-from typing import Callable
-from typing import cast
+from sublime_lib import ResourcePath
 from typing import final
 from typing import List
 from typing import Tuple
 from typing import TypedDict
 from typing import Union
 from typing_extensions import override
-import sublime
-
-PACKAGE_NAME = str(__package__)
-SERVER_DIRECTORY = 'server'
-SERVER_NODE_MODULES = Path(SERVER_DIRECTORY) / 'node_modules'
-SERVER_BINARY_PATH = SERVER_NODE_MODULES / '@vue' / 'language-server' / 'bin' / 'vue-language-server.js'
 
 
 class TypescriptTsserverCommandParams(TypedDict):
@@ -34,53 +26,27 @@ TsserverRequestParams = Tuple[Tuple[int, str, Union[TypescriptTsserverCommandPar
 
 
 def plugin_loaded():
-    LspVuePlugin.setup()
+    LspVuePlugin.register()
 
 
 def plugin_unloaded():
-    LspVuePlugin.cleanup()
+    LspVuePlugin.unregister()
 
 
 @final
-class LspVuePlugin(NpmClientHandler):
-    package_name = PACKAGE_NAME
-    server_directory = SERVER_DIRECTORY
-    server_binary_path = str(SERVER_BINARY_PATH)
+class LspVuePlugin(LspPlugin):
 
     @classmethod
     @override
-    def required_node_version(cls) -> str:
-        return '>=18'
-
-    @override
-    def on_pre_server_command(self, command: ExecuteCommandParams, done_callback: Callable[[], None]) -> bool:
-        command_name = command['command']
-        if command_name == 'editor.action.showReferences':
-            _, __, references = command.get('arguments', [None, None, None])
-            self._handle_show_references(cast(list[Location], references))
-            done_callback()
-            return True
-        return False
-
-    def _handle_show_references(self, references: list[Location]) -> None:
-        session = self.weaksession()
-        if not session:
-            return
-        view = sublime.active_window().active_view()
-        if not view:
-            return
-        if len(references) == 1:
-            window = view.window()
-            if window:
-                args: dict[str, Any] = {
-                    'location': references[0],
-                    'session_name': session.config.name,
-                }
-                window.run_command('lsp_open_location', args)
-        elif references:
-            LocationPicker(view, session, references, side_by_side=False)
-        else:
-            sublime.status_message('No references found')
+    def on_pre_start_async(cls, context: OnPreStartContext) -> None:
+        package_name = cls.plugin_storage_path.name
+        NodeManager.on_pre_start_async(
+            context,
+            cls.plugin_storage_path,
+            ResourcePath('Packages', package_name, 'server'),
+            Path('node_modules', '@vue', 'language-server', 'bin', 'vue-language-server.js'),
+            '>=18',
+        )
 
     @notification_handler('tsserver/request')
     def on_tsserver_request(self, params: TsserverRequestParams) -> None:
@@ -111,8 +77,6 @@ class LspVuePlugin(NpmClientHandler):
         )
 
     def _on_execute_command_response(self, seq: int, result: LSPAny | Error) -> None:
-        session = self.weaksession()
-        if not session:
-            return
-        body = result['body'] if isinstance(result, dict) and 'body' in result else None
-        session.send_notification(Notification('tsserver/response', [[seq, body]]))
+        if session := self.weaksession():
+            body = result['body'] if isinstance(result, dict) and 'body' in result else None
+            session.send_notification(Notification('tsserver/response', [[seq, body]]))
