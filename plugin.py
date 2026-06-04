@@ -45,7 +45,7 @@ class LspVuePlugin(LspPlugin):
             cls.plugin_storage_path,
             ResourcePath('Packages', package_name, 'server'),
             Path('node_modules', '@vue', 'language-server', 'bin', 'vue-language-server.js'),
-            '>=18',
+            node_version_requirement='>=18',
         )
 
     @notification_handler('tsserver/request')
