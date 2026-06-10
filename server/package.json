@@ -2,7 +2,7 @@
   "name": "sublime-volar",
   "private": true,
   "dependencies": {
-    "@vue/language-server": "3.3.3",
+    "@vue/language-server": "3.3.4",
     "typescript": "6.0.3"
   }
 }
