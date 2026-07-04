@@ -3,6 +3,7 @@
 codecov.yml export-ignore
 pyproject.toml export-ignore
 renovate.json export-ignore
+settings-processor.json export-ignore
 tests/ export-ignore
 tox.ini export-ignore
 unittesting.json export-ignore

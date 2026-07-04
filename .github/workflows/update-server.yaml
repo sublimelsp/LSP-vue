@@ -7,11 +7,8 @@ on:
 
 jobs:
   check-new-settings:
-    uses: sublimelsp/workflows/.github/workflows/changed-settings.yaml@main
+    uses: sublimelsp/workflows/.github/workflows/changed-settings.yaml@v2
     with:
-      repository_url: 'https://github.com/vuejs/language-tools'
-      configuration_file_path: 'extensions/vscode/package.json'
-      configuration_jq_query: '.contributes.configuration.properties'
       version_file: 'server/package.json'
       version_regexp: '"@vue/language-server": "([^"]+)"'
       version_transform: 'v{}'

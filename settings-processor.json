@@ -1,0 +1,10 @@
+{
+    "input_repository_url": "https://github.com/vuejs/language-tools",
+    "input_repository_json_configuration_path": "extensions/vscode/package.json",
+    "transformers": [
+        {
+            "type": "jq",
+            "options": ".contributes.configuration.properties"
+        }
+    ]
+}
