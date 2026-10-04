@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+from LSP.plugin import Error
 from LSP.plugin import LspPlugin
 from LSP.plugin import Notification
 from LSP.plugin import notification_handler
 from LSP.plugin import OnPreStartContext
-from LSP.plugin.core.protocol import Error
 from LSP.protocol import ExecuteCommandParams
 from LSP.protocol import LSPAny
 from lsp_utils import NodeManager
