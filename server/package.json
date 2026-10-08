@@ -3,6 +3,6 @@
   "private": true,
   "dependencies": {
     "@vue/language-server": "3.3.12",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   }
 }
