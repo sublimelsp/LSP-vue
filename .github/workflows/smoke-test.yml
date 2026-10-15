@@ -1,0 +1,17 @@
+name: Smoke test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    uses: sublimelsp/lsp_smoke_test/.github/workflows/smoke-test.yml@v1
+    # Vue Syntax Highlight provides the Vue syntax. LSP-vue needs LSP-typescript.
+    with:
+      extra-packages: |
+        vuejs/vue-syntax-highlight@st4-4.1.0
+        sublimelsp/LSP-typescript@v2.14.0
