@@ -19,5 +19,5 @@ jobs:
         tests/smoke/vue_typescript
       # Vue Syntax Highlight provides the Vue syntax. LSP-vue needs LSP-typescript.
       extra-packages: |
-        vuejs/vue-syntax-highlight@st4-4.1.0
+        vuejs/vue-syntax-highlight@st4-
         sublimelsp/LSP-typescript
