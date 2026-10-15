@@ -1,0 +1,23 @@
+name: Smoke test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    uses: sublimelsp/lsp_smoke_test/.github/workflows/smoke-test.yml@v1
+    with:
+      # vue checks a diagnostic from the Vue language server, vue_typescript one from LSP-typescript, which only works
+      # when it loads the @vue/typescript-plugin that LSP-vue installs. The tests run in alphabetical order, so the
+      # plugin is installed by the time vue_typescript runs.
+      fixture-dir: |
+        tests/smoke/vue
+        tests/smoke/vue_typescript
+      # Vue Syntax Highlight provides the Vue syntax. LSP-vue needs LSP-typescript.
+      extra-packages: |
+        vuejs/vue-syntax-highlight@st4-
+        sublimelsp/LSP-typescript
