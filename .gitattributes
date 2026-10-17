@@ -1,5 +1,7 @@
 .dependabot export-ignore
+/.gitattributes export-ignore
 .github/ export-ignore
+/.gitignore export-ignore
 codecov.yml export-ignore
 pyproject.toml export-ignore
 renovate.json export-ignore
