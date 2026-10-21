@@ -7,8 +7,10 @@ on:
 
 jobs:
   check-new-settings:
-    uses: sublimelsp/workflows/.github/workflows/changed-settings.yaml@v2
+    uses: sublimelsp/workflows/.github/workflows/changed-settings.yaml@v3
     with:
       version_file: 'server/package.json'
       version_regexp: '"@vue/language-server": "([^"]+)"'
       version_transform: 'v{}'
+    secrets:
+      SUBLIMELSP_APP_PRIVATE_KEY: ${{ secrets.SUBLIMELSP_APP_PRIVATE_KEY }}
