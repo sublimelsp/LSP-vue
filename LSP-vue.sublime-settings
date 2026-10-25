@@ -283,10 +283,12 @@
 	"selector": "text.html.vue",
 	// Preferred for handling requests in Vue files over LSP-tsgo.
 	"priority_selector": "text.html.vue, text.html.vue source.js, text.html.vue source.ts",
-	// LSP-tsgo provides these for Vue files.
+	// LSP-tsgo provides these for Vue files. LSP picks one server for rename, and this server can only rename CSS and
+	// HTML tags, so LSP-tsgo renames TypeScript symbols in all blocks instead.
 	"disabled_capabilities": {
 		"definitionProvider": true,
 		"referencesProvider": true,
+		"renameProvider": true,
 		"typeDefinitionProvider": true,
 	},
 }
