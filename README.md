@@ -49,21 +49,7 @@ TypeScript 7 type-checks Vue files through the `@vue/content-mapper` package, an
    }
    ```
 
-3. Content mappers run code from the project, so `LSP-tsgo` runs them only when you enable `runExternalCode`. Enable it for the project in its `.sublime-project` file:
-
-   ```jsonc
-   {
-       "settings": {
-           "LSP": {
-               "LSP-tsgo": {
-                   "initialization_options": {
-                       "runExternalCode": true
-                   }
-               }
-           }
-       }
-   }
-   ```
+`LSP-tsgo` runs content mappers by default. They run code from the project's `node_modules`, so you can disable them for projects that you don't trust with the `runExternalCode` setting of `LSP-tsgo`. Then Vue files get no TypeScript features.
 
 Vue files outside any tsconfig use the content mapper that this package installs.
 

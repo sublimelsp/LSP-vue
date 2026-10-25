@@ -4,8 +4,7 @@ This version uses the Vue Language Server 4, which works with TypeScript 7.
 
 - LSP-vue now needs LSP-tsgo instead of LSP-typescript. Install LSP-tsgo from Package Control.
 - TypeScript features in Vue files come from LSP-tsgo through the `@vue/content-mapper` package. Install it and
-  TypeScript 7.1 or later in your project, add it to the `contentMappers` field of your tsconfig and enable
-  `runExternalCode` in the LSP-tsgo settings of the project.
+  TypeScript 7.1 or later in your project and add it to the `contentMappers` field of your tsconfig.
 - The `vueCompilerOptions` field of the tsconfig is no longer read. Move the options to the `options` of the
   `contentMappers` entry.
 - `vue-tsc` is replaced by `tsc --runExternalCode`.

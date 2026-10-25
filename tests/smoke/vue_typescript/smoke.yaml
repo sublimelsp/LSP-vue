@@ -3,10 +3,6 @@ file: sample.vue
 # TypeScript diagnostics in .vue files are reported by LSP-tsgo, through the @vue/content-mapper that LSP-vue installs
 # and contributes to it for files outside any tsconfig.
 session_name: LSP-tsgo
-settings:
-  LSP-tsgo.sublime-settings:
-    initialization_options:
-      runExternalCode: true
 # TS2322: Type 'string' is not assignable to type 'number'.
 expected_diagnostics:
   code: 2322
