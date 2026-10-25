@@ -136,16 +136,17 @@ class LspVuePlugin(LspPlugin):
         if not initialize_api_session:
             return self._log_failure(f'{TYPESCRIPT_SESSION_NAME} does not support the TypeScript API. Update it.')
 
-        def on_result(result: TypeScriptApiConnection | Error) -> TypeScriptApiConnection | None:
+        def on_result(result: TypeScriptApiConnection | Error) -> Promise[TypeScriptApiConnection | None]:
             if isinstance(result, Error):
-                log(f'Failed to connect to the TypeScript API: {result}')
-                return None
-            return result
+                return self._log_failure(f'Failed to connect to the TypeScript API: {result}')
+            return Promise.resolve(result)
 
         return cast('Promise[TypeScriptApiConnection | Error]', initialize_api_session()).then(on_result)
 
     def _log_failure(self, message: str) -> Promise[None]:
-        # A request handler can't send an error response asynchronously, so the server gets no result instead and
-        # asks again on its next request.
         log(message)
+        # LSP only sends an error response for an `Error` that a request handler raises synchronously. When the
+        # returned promise resolves, LSP sends its value as the result, and an `Error` can't be serialized. So an
+        # asynchronous failure replies `null`: the server shows a generic error and asks again on its next request.
+        # TODO: Resolve with the `Error` when `Session.send_response` sends it as an error response.
         return Promise.resolve(None)
