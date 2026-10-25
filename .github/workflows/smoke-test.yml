@@ -17,7 +17,7 @@ jobs:
       fixture-dir: |
         tests/smoke/vue
         tests/smoke/vue_typescript
-      # Vue Syntax Highlight provides the Vue syntax. LSP-vue needs LSP-typescript.
+      # The Vue package provides the Vue syntax. LSP-vue needs LSP-typescript.
       extra-packages: |
-        vuejs/vue-syntax-highlight@st4-
-        sublimelsp/LSP-typescript
+        Vue
+        LSP-typescript
