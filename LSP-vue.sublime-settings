@@ -273,22 +273,20 @@
 		// on it. For example 4096 equals 4GB.
 		// "--max-old-space-size=4096",
 		"${server_path}",
-		"--stdio"
+		"--stdio",
+		// TypeScript 5 or 6 for the server. `${typescript_sdk}` resolves to the one installed beside the server.
+		"--tsdk=${typescript_sdk}"
 	],
 	"env": {
 		"NODE_ENV": "production",
 	},
 	"selector": "text.html.vue",
-	// Preferred for handling requests in Vue files over LSP-typescript.
+	// Preferred for handling requests in Vue files over LSP-tsgo.
 	"priority_selector": "text.html.vue, text.html.vue source.js, text.html.vue source.ts",
+	// LSP-tsgo provides these for Vue files.
 	"disabled_capabilities": {
 		"definitionProvider": true,
 		"referencesProvider": true,
 		"typeDefinitionProvider": true,
 	},
-	"semantic_tokens": {
-		"component": "entity.name.tag.vue",
-		"markdown": "entity.name.tag.vue",
-		"html": "entity.name.tag.vue",
-	}
 }
