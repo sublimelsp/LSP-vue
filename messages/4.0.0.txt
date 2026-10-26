@@ -7,6 +7,8 @@ This version uses the Vue Language Server 4, which works with TypeScript 7.
   TypeScript 7.1 or later in your project and add it to the `contentMappers` field of your tsconfig.
 - The `vueCompilerOptions` field of the tsconfig is no longer read. Move the options to the `options` of the
   `contentMappers` entry.
+- Vue language plugins of version 3 no longer load. If the `plugins` of a `contentMappers` entry has a plugin, such
+  as `@vue/language-plugin-pug`, update the plugin to a version for Vue Language Tools 4.
 - `vue-tsc` is replaced by `tsc --runExternalCode`.
 - The server doesn't provide semantic tokens. Component tags get their color from the syntax.
 - If you override `disabled_capabilities` in your user settings, include `definitionProvider`,
