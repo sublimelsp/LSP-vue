@@ -4,6 +4,7 @@ from LSP.plugin import Error
 from LSP.plugin import LspPlugin
 from LSP.plugin import OnPreStartContext
 from LSP.plugin import Promise
+from LSP.plugin import Request
 from LSP.plugin import request_handler
 from LSP.plugin import Session
 from LSP.protocol import ErrorCodes
@@ -130,16 +131,25 @@ class LspVuePlugin(LspPlugin):
         return Promise(poll)
 
     def _initialize_api_session(self, typescript_session: Session) -> Promise[TypeScriptApiConnection | None]:
-        initialize_api_session = getattr(typescript_session.plugin, 'initialize_api_session', None)
-        if not initialize_api_session:
-            return self._log_failure(f'{TYPESCRIPT_SESSION_NAME} does not support the TypeScript API. Update it.')
+        """
+        Opens a session of the TypeScript API on the LSP-tsgo server. LSP-tsgo adds `packageJsonPath`, the
+        `package.json` of the TypeScript installation that runs its server, to the response.
+        """
 
-        def on_result(result: TypeScriptApiConnection | Error) -> Promise[TypeScriptApiConnection | None]:
+        def on_result(result: dict[str, Any] | Error | None) -> Promise[TypeScriptApiConnection | None]:
             if isinstance(result, Error):
                 return self._log_failure(f'Failed to connect to the TypeScript API: {result}')
-            return Promise.resolve(result)
+            if not result or not isinstance(result.get('pipe'), str):
+                return self._log_failure(f'{TYPESCRIPT_SESSION_NAME} returned no TypeScript API pipe')
+            if not isinstance(result.get('packageJsonPath'), str):
+                return self._log_failure(
+                    f'{TYPESCRIPT_SESSION_NAME} returned no TypeScript package.json. Update it or check its '
+                    '`server_path` setting.'
+                )
+            return Promise.resolve({'pipe': result['pipe'], 'packageJsonPath': result['packageJsonPath']})
 
-        return cast('Promise[TypeScriptApiConnection | Error]', initialize_api_session()).then(on_result)
+        request = Request('custom/initializeAPISession', {})
+        return typescript_session.send_request_task(request).then(on_result)
 
     def _log_failure(self, message: str) -> Promise[None]:
         log(message)
