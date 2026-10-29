@@ -114,9 +114,7 @@ class LspVuePlugin(LspPlugin):
     def _is_session_starting(self) -> bool:
         session = self.weaksession()
         manager = session.manager() if session else None
-        # Older LSP versions don't tell, so assume that the session is starting until the timeout.
-        is_session_starting = getattr(manager, 'is_session_starting', None)
-        return bool(manager) and (not is_session_starting or is_session_starting())
+        return bool(manager and manager.is_session_starting())
 
     def _wait_for_typescript_session(self) -> Promise[Session | None]:
         deadline = time.monotonic() + SESSION_START_TIMEOUT_S
