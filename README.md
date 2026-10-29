@@ -6,6 +6,7 @@ This is a helper package that automatically installs and updates the [Vue Langua
   - [Installation](#installation)
   - [Configuration](#configuration)
   - [TypeScript support](#typescript-support)
+  - [Known limitations](#known-limitations)
   - [Inlay hints](#inlay-hints)
   - [Vue 2 support](#vue-2-support)
 
@@ -61,6 +62,15 @@ To type-check the project on the command line, use `tsc --runExternalCode` inste
 ### Component colors
 
 The server doesn't provide semantic tokens. Component tags get their color from the syntax.
+
+### Known limitations
+
+These are limitations of Vue Language Tools 4 and TypeScript 7.1, not of this package. See the [changelog](https://github.com/vuejs/language-tools/blob/master/CHANGELOG.md) of Vue Language Tools for the details.
+
+- Formatting, folding, selection ranges, document symbols and JSX closing tags are not available in `<script>` blocks and template expressions.
+- When you rename a name that a shorthand uses (`:count`, `:foo-bar`, `{ foo }`), the shorthand doesn't change. Renaming from the shorthand does nothing.
+- Go to definition on an import of a Vue file through a `paths` alias (`import Foo from '@/Foo.vue'`) gives no result. A relative import works.
+- An auto-import into an empty `<script setup>` or `<script>` of a component with a template goes into the template.
 
 ### Inlay hints
 
