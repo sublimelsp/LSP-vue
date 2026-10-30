@@ -1,7 +1,6 @@
 [
     {
         "name": "@vue/content-mapper",
-        "location": "${storage_path}/LSP-vue/server/node_modules/",
         "extensions": [".vue"],
         "selector": "text.html.vue",
         "options": {

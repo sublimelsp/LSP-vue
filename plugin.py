@@ -52,25 +52,36 @@ class LspVuePlugin(LspPlugin):
     @override
     def on_pre_start_async(cls, context: OnPreStartContext) -> None:
         package_name = cls.plugin_storage_path.name
-        NodeManager.on_pre_start_async(
+        server_directory = NodeManager.on_pre_start_async(
             context,
             cls.plugin_storage_path,
             ResourcePath('Packages', package_name, 'server'),
             Path('node_modules', '@vue', 'language-server', 'bin', 'vue-language-server.js'),
             node_version_requirement='>=18',
         )
+        contributions = cls._read_content_mapper_contributions(package_name)
+        # Without a managed server there is no content mapper to report.
+        if server_directory and (window := context.view.window()):
+            for contribution in contributions:
+                window.run_command('lsp_tsgo_set_content_mapper_location', {
+                    'name': contribution['name'],
+                    'location': str(server_directory / 'node_modules'),
+                })
         # The content mappers for files outside any tsconfig, the same ones that LSP-tsgo registers.
         if not context.configuration.initialization_options.get('contentMappers'):
-            context.configuration.initialization_options.set('contentMappers', cls._get_content_mappers(package_name))
+            context.configuration.initialization_options.set('contentMappers', cls._to_content_mappers(contributions))
 
     @classmethod
-    def _get_content_mappers(cls, package_name: str) -> list[dict[str, LSPAny]]:
+    def _read_content_mapper_contributions(cls, package_name: str) -> list[dict[str, Any]]:
         resource = ResourcePath('Packages', package_name, 'typescript-content-mappers.json')
         try:
-            contributions = cast('list[dict[str, Any]]', sublime.decode_value(resource.read_text()))
+            return cast('list[dict[str, Any]]', sublime.decode_value(resource.read_text()))
         except (OSError, ValueError):
             log(f'Failed reading "{resource}"')
             return []
+
+    @classmethod
+    def _to_content_mappers(cls, contributions: list[dict[str, Any]]) -> list[dict[str, LSPAny]]:
         return [
             {
                 'package': contribution['name'],
@@ -131,14 +142,17 @@ class LspVuePlugin(LspPlugin):
 
         def on_result(result: dict[str, Any] | Error | None) -> Promise[TypeScriptApiConnection | None]:
             if isinstance(result, Error):
-                return self._log_failure(f'Failed to connect to the TypeScript API: {result}')
+                self._log_failure(f'Failed to connect to the TypeScript API: {result}')
+                return Promise.resolve(None)
             if not result or not isinstance(result.get('pipe'), str):
-                return self._log_failure(f'{TYPESCRIPT_SESSION_NAME} returned no TypeScript API pipe')
+                self._log_failure(f'{TYPESCRIPT_SESSION_NAME} returned no TypeScript API pipe')
+                return Promise.resolve(None)
             if not isinstance(result.get('packageJsonPath'), str):
-                return self._log_failure(
+                self._log_failure(
                     f'{TYPESCRIPT_SESSION_NAME} returned no TypeScript package.json. Update it or check its '
                     '`server_path` setting.'
                 )
+                return Promise.resolve(None)
             return Promise.resolve({'pipe': result['pipe'], 'packageJsonPath': result['packageJsonPath']})
 
         request = Request('custom/initializeAPISession', {})
