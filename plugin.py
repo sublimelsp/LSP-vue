@@ -59,13 +59,6 @@ class LspVuePlugin(LspPlugin):
             Path('node_modules', '@vue', 'language-server', 'bin', 'vue-language-server.js'),
             node_version_requirement='>=18',
         )
-        # The server runs on the API of TypeScript 5 or 6, which the `typescript` package of TypeScript 7 doesn't have.
-        # The server directory installs TypeScript 6 as `typescript-6`.
-        node_modules = Path(context.variables['server_path']).parents[3]
-        typescript_sdk = node_modules / 'typescript-6' / 'lib'
-        if not typescript_sdk.is_dir():
-            typescript_sdk = node_modules / 'typescript' / 'lib'
-        context.variables['typescript_sdk'] = str(typescript_sdk)
         # The content mappers for files outside any tsconfig, the same ones that LSP-tsgo registers.
         if not context.configuration.initialization_options.get('contentMappers'):
             context.configuration.initialization_options.set('contentMappers', cls._get_content_mappers(package_name))

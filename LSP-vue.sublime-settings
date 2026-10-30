@@ -273,9 +273,7 @@
 		// on it. For example 4096 equals 4GB.
 		// "--max-old-space-size=4096",
 		"${server_path}",
-		"--stdio",
-		// TypeScript 5 or 6 for the server. `${typescript_sdk}` resolves to the one installed beside the server.
-		"--tsdk=${typescript_sdk}"
+		"--stdio"
 	],
 	"env": {
 		"NODE_ENV": "production",

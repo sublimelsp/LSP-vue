@@ -11,6 +11,8 @@ This version uses the Vue Language Server 4, which works with TypeScript 7.
   as `@vue/language-plugin-pug`, update the plugin to a version for Vue Language Tools 4.
 - `vue-tsc` is replaced by `tsc --runExternalCode`.
 - The server doesn't provide semantic tokens. Component tags get their color from the syntax.
+- The server doesn't provide formatting, folding, selection ranges, document symbols and JSX closing tags for
+  `<script>` blocks and template expressions until TypeScript 7 has the necessary API.
 - If you override `disabled_capabilities` in your user settings, include `definitionProvider`,
   `referencesProvider`, `renameProvider` and `typeDefinitionProvider`, or remove the override. Sublime Text
   replaces the whole setting, so a partial override sends these requests to the Vue server, which returns no
