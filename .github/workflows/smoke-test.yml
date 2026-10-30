@@ -19,4 +19,4 @@ jobs:
       # The Vue package provides the Vue syntax. LSP-vue needs LSP-tsgo with content mapper support.
       extra-packages: |
         Vue
-        sublimelsp/LSP-tsgo
+        niksy/LSP-tsgo@typescript-7.1
