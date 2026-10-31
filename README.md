@@ -5,6 +5,8 @@ This is a helper package that automatically installs and updates the [Vue Langua
 ## Table of Contents
   - [Installation](#installation)
   - [Configuration](#configuration)
+  - [TypeScript support](#typescript-support)
+  - [Known limitations](#known-limitations)
   - [Inlay hints](#inlay-hints)
   - [Vue 2 support](#vue-2-support)
 
@@ -14,32 +16,61 @@ This is a helper package that automatically installs and updates the [Vue Langua
   - [LSP](https://packagecontrol.io/packages/LSP)
   - [Vue Syntax Highlight](https://packagecontrol.io/packages/Vue%20Syntax%20Highlight)
   - [LSP-vue](https://packagecontrol.io/packages/LSP-vue)
-  - [LSP-typescript](https://packagecontrol.io/packages/LSP-typescript)
+  - [LSP-tsgo](https://packagecontrol.io/packages/LSP-tsgo)
 * Restart Sublime.
 
 > [!NOTE]
-> Make sure that `LSP-typescript` is installed - it's a required dependency.
+> Make sure that `LSP-tsgo` is installed - it's a required dependency. `LSP-typescript` is no longer used for Vue files.
 
 ### Configuration
 
 Open the configuration file using Command Palette with `Preferences: LSP-vue Settings` command or opening it from the Sublime menu (`Preferences > Package Settings > LSP > Servers > LSP-vue`).
 
-### Semantic Tokens
+### TypeScript support
 
-Server assigns a dedicated `entity.name.tag.vue` scope to component tags which allows one to customize their color. To customize, select `UI: Customize Color Scheme` from the _Command Palette_ and add a rule like the following (with your chosen color):
+TypeScript 7 type-checks Vue files through the `@vue/content-mapper` package, and `LSP-tsgo` provides the TypeScript features (diagnostics, hover, go to definition, references, rename) in them. The Vue language server asks `LSP-tsgo` about the project of each file.
 
-```jsonc
-{
-    // ...
-    "rules": [
-        // ...
-        {
-            "scope": "entity.name.tag.vue",
-            "foreground": "color(var(blue))",
-        },
-    ],
-}
-```
+1. Install TypeScript 7.1 or later and the content mapper in the project:
+
+   ```sh
+   npm i -D typescript@beta @vue/content-mapper@alpha
+   ```
+
+2. Add the content mapper to `tsconfig.json`. Vue compiler options, which were in `vueCompilerOptions` before, go in `options`:
+
+   ```jsonc
+   {
+       "contentMappers": [
+           {
+               "package": "@vue/content-mapper",
+               "extensions": [".vue"],
+               "options": { "target": 3.5 }
+           }
+       ]
+   }
+   ```
+
+`LSP-tsgo` runs content mappers by default. They run code from the project's `node_modules`, so you can disable them for projects that you don't trust with the `runExternalCode` setting of `LSP-tsgo`. Then Vue files get no TypeScript features.
+
+Vue files outside any tsconfig use the content mapper that this package installs.
+
+To type-check the project on the command line, use `tsc --runExternalCode` instead of `vue-tsc`.
+
+> [!TIP]
+> Install [LSP-file-watcher-chokidar](https://packagecontrol.io/packages/LSP-file-watcher-chokidar), so that the server sees changes to config files and components that are not open.
+
+### Component colors
+
+The server doesn't provide semantic tokens. Component tags get their color from the syntax.
+
+### Known limitations
+
+These are limitations of Vue Language Tools 4 and TypeScript 7.1, not of this package. See the [changelog](https://github.com/vuejs/language-tools/blob/master/CHANGELOG.md) of Vue Language Tools for the details.
+
+- Formatting, folding, selection ranges, document symbols and JSX closing tags are not available in `<script>` blocks and template expressions.
+- When you rename a name that a shorthand uses (`:count`, `:foo-bar`, `{ foo }`), the shorthand doesn't change. Renaming from the shorthand does nothing.
+- Go to definition on an import of a Vue file through a `paths` alias (`import Foo from '@/Foo.vue'`) gives no result. A relative import works.
+- An auto-import into an empty `<script setup>` or `<script>` of a component with a template goes into the template.
 
 ### Inlay hints
 

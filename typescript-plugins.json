@@ -1,8 +1,0 @@
-[
-    {
-        "name": "@vue/typescript-plugin",
-        "languages": ["vue"],
-        "selector": "text.html.vue",
-        "location": "${storage_path}/LSP-vue/server/node_modules/"
-    }
-]

@@ -11,13 +11,12 @@ jobs:
   smoke:
     uses: sublimelsp/lsp_smoke_test/.github/workflows/smoke-test.yml@v1
     with:
-      # vue checks a diagnostic from the Vue language server, vue_typescript one from LSP-typescript, which only works
-      # when it loads the @vue/typescript-plugin that LSP-vue installs. The tests run in alphabetical order, so the
-      # plugin is installed by the time vue_typescript runs.
+      # vue checks a diagnostic from the Vue language server, vue_typescript one from LSP-tsgo, which only works when
+      # it runs the @vue/content-mapper that LSP-vue installs and reports to it.
       fixture-dir: |
         tests/smoke/vue
         tests/smoke/vue_typescript
-      # The Vue package provides the Vue syntax. LSP-vue needs LSP-typescript.
+      # The Vue package provides the Vue syntax. LSP-vue needs LSP-tsgo with content mapper support.
       extra-packages: |
         Vue
-        LSP-typescript
+        niksy/LSP-tsgo@typescript-7.1
