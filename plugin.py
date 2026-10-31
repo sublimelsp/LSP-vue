@@ -13,19 +13,14 @@ from lsp_utils import NodeManager
 from pathlib import Path
 from sublime_lib import ResourcePath
 from typing import Any
-from typing import Callable
 from typing import cast
 from typing import final
 from typing import TypedDict
 from typing_extensions import override
 import sublime
-import time
 
 # The session that runs the TypeScript 7 language server, with the Vue content mapper.
 TYPESCRIPT_SESSION_NAME = 'LSP-tsgo'
-# How long to wait for that session, which can include installing its server.
-SESSION_START_TIMEOUT_S = 180
-SESSION_POLL_INTERVAL_MS = 250
 
 
 class TypeScriptApiConnection(TypedDict):
@@ -93,46 +88,25 @@ class LspVuePlugin(LspPlugin):
     @request_handler('vue/typescriptApiConnection')
     def on_typescript_api_connection(self, _: None) -> Promise[TypeScriptApiConnection | None]:
         """
-        Connects the server to the TypeScript API of the LSP-tsgo session. The server asks again after a failure, for
-        example when LSP-tsgo has not started yet.
+        Connects the server to the TypeScript API of the LSP-tsgo session. The server shows the error and asks again on
+        its next request, for example when LSP-tsgo has not started yet.
         """
-        if typescript_session := self._get_typescript_session():
+        session = self.weaksession()
+        manager = session.manager() if session else None
+        if not session or not manager:
+            raise Error(ErrorCodes.InternalError, 'The session has ended')
+        folders = session.get_workspace_folders()
+        # The LSP-tsgo session that handles the workspace of this session.
+        if typescript_session := manager.get_session(TYPESCRIPT_SESSION_NAME, folders[0].path if folders else None):
             return self._initialize_api_session(typescript_session)
-        if not self._is_session_starting():
-            raise Error(
-                ErrorCodes.InternalError,
-                f'{TYPESCRIPT_SESSION_NAME} is not running. Install it and make sure that `runExternalCode` is not '
-                'disabled in its settings.',
-            )
-        # LSP starts the sessions of a view one after another, so LSP-tsgo can still be installing or starting. The
-        # server waits for the response.
-        return self._wait_for_typescript_session().then(
-            lambda typescript_session: self._initialize_api_session(typescript_session) if typescript_session
-            else self._log_failure(f'{TYPESCRIPT_SESSION_NAME} did not start')
+        if manager.is_session_starting():
+            # LSP starts the sessions of a view one after another, so LSP-tsgo can still be installing or starting.
+            raise Error(ErrorCodes.InternalError, f'{TYPESCRIPT_SESSION_NAME} has not started yet')
+        raise Error(
+            ErrorCodes.InternalError,
+            f'{TYPESCRIPT_SESSION_NAME} is not running. Install it and make sure that `runExternalCode` is not '
+            'disabled in its settings.',
         )
-
-    def _get_typescript_session(self) -> Session | None:
-        session = self.weaksession()
-        manager = session.manager() if session else None
-        return manager.get_session(TYPESCRIPT_SESSION_NAME) if manager else None
-
-    def _is_session_starting(self) -> bool:
-        session = self.weaksession()
-        manager = session.manager() if session else None
-        return bool(manager and manager.is_session_starting())
-
-    def _wait_for_typescript_session(self) -> Promise[Session | None]:
-        deadline = time.monotonic() + SESSION_START_TIMEOUT_S
-
-        def poll(resolve: Callable[[Session | None], None]) -> None:
-            if typescript_session := self._get_typescript_session():
-                resolve(typescript_session)
-            elif not self._is_session_starting() or time.monotonic() > deadline:
-                resolve(None)
-            else:
-                sublime.set_timeout_async(lambda: poll(resolve), SESSION_POLL_INTERVAL_MS)
-
-        return Promise(poll)
 
     def _initialize_api_session(self, typescript_session: Session) -> Promise[TypeScriptApiConnection | None]:
         """
