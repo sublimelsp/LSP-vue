@@ -78,7 +78,8 @@ class LspVuePlugin(LspPlugin):
             cls.plugin_storage_path,
             ResourcePath('Packages', package_name, 'server'),
             Path('node_modules', '@vue', 'language-server', 'bin', 'vue-language-server.js'),
-            node_version_requirement='>=18',
+            # The same as LSP-tsgo
+            node_version_requirement='^20.19.0 || >=22.12.0',
         )
         contributions = cls._read_content_mapper_contributions(package_name)
         # Without a managed server there is no content mapper to report.
