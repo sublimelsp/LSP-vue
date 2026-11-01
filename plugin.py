@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 from LSP.plugin import Error
+from LSP.plugin import IsApplicableContext
 from LSP.plugin import LspPlugin
 from LSP.plugin import OnPreStartContext
+from LSP.plugin import parse_uri
 from LSP.plugin import Promise
 from LSP.plugin import Request
 from LSP.plugin import request_handler
 from LSP.plugin import Session
+from LSP.plugin import uri_from_view
+from LSP.plugin.core.registry import windows
 from LSP.protocol import ErrorCodes
 from LSP.protocol import LSPAny
 from lsp_utils import NodeManager
@@ -42,6 +46,28 @@ def plugin_unloaded():
 
 @final
 class LspVuePlugin(LspPlugin):
+
+    @classmethod
+    @override
+    def is_applicable_async(cls, context: IsApplicableContext) -> bool:
+        if not super().is_applicable_async(context):
+            return False
+        # LSP starts the sessions of a view one after another, and checks the view again after each one. If LSP-tsgo
+        # has yet to start for this view, LSP-vue starts after it. Otherwise the first request of the server fails to
+        # connect to the TypeScript API and the server shows an error.
+        return not cls._is_typescript_session_pending(context)
+
+    @classmethod
+    def _is_typescript_session_pending(cls, context: IsApplicableContext) -> bool:
+        view = context.view
+        manager = windows.lookup(view.window())
+        if not manager or manager.get_session(TYPESCRIPT_SESSION_NAME, view.file_name()):
+            return False
+        config = manager.get_config_manager().get_config(TYPESCRIPT_SESSION_NAME)
+        if not config or not config.enabled:
+            return False
+        scheme, _ = parse_uri(uri_from_view(view))
+        return config.match_view(view, scheme, manager.window, context.workspace_folders)
 
     @classmethod
     @override
@@ -88,8 +114,8 @@ class LspVuePlugin(LspPlugin):
     @request_handler('vue/typescriptApiConnection')
     def on_typescript_api_connection(self, _: None) -> Promise[TypeScriptApiConnection | None]:
         """
-        Connects the server to the TypeScript API of the LSP-tsgo session. The server shows the error and asks again on
-        its next request, for example when LSP-tsgo has not started yet.
+        Connects the server to the TypeScript API of the LSP-tsgo session. LSP-vue starts after LSP-tsgo, so the session
+        is usually available. If not, the server shows the error and asks again on its next request.
         """
         session = self.weaksession()
         manager = session.manager() if session else None
