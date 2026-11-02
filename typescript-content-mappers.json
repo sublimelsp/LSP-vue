@@ -1,0 +1,12 @@
+[
+    {
+        "name": "@vue/content-mapper",
+        "extensions": [".vue"],
+        "selector": "text.html.vue",
+        "options": {
+            "languageFeatures": true,
+            "target": 99,
+            "format": "sfc"
+        }
+    }
+]

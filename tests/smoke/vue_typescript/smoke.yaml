@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/sublimelsp/lsp_smoke_test/v1/smoke.schema.json
 file: sample.vue
-# TypeScript diagnostics in .vue files are reported by LSP-typescript, through the @vue/typescript-plugin that LSP-vue
-# installs and registers with it.
-session_name: LSP-typescript
+# TypeScript diagnostics in .vue files are reported by LSP-tsgo, through the @vue/content-mapper that LSP-vue installs
+# and contributes to it for files outside any tsconfig.
+session_name: LSP-tsgo
 # TS2322: Type 'string' is not assignable to type 'number'.
 expected_diagnostics:
   code: 2322
